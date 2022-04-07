@@ -1,13 +1,15 @@
 package com.homework.vo;
 
+import java.sql.Date;
+
 public class HomeworkInfo {
 	private String homeworkId;
 	private String grade;
 	private String clas;
 	private String title;
 	private String subject;
-	private String stDate;
-	private String enDate;
+	private Date stDate;
+	private Date enDate;
 	
 	public String getHomeworkId() {
 		return homeworkId;
@@ -39,16 +41,16 @@ public class HomeworkInfo {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public String getStDate() {
+	public Date getStDate() {
 		return stDate;
 	}
-	public void setStDate(String stDate) {
+	public void setStDate(Date stDate) {
 		this.stDate = stDate;
 	}
-	public String getEnDate() {
+	public Date getEnDate() {
 		return enDate;
 	}
-	public void setEnDate(String enDate) {
+	public void setEnDate(Date enDate) {
 		this.enDate = enDate;
 	}
 }

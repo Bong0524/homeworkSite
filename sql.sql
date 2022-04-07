@@ -36,10 +36,12 @@ subject varchar2(10),
 stDate date default sysdate,
 enDate date not null
 )
-
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'더하기빼기','수학','2022-04-06','2022-04-07')
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'더하기빼기2','수학','2022-04-06','2022-04-07')
-select * from hw_homework
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'더하기빼기','math','2022-04-06','2022-04-07');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'더하기빼기2','math','2022-04-06','2022-04-07');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),1,1,'더하기','math','2022-04-07','2022-04-20');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'지구','science','2022-04-07','2022-04-10');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'달','science','2022-04-07','2022-04-8');
+select * from hw_homework	
 
 --숙제의 문제 테이블
 create table hw_quest(

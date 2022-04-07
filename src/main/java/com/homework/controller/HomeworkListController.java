@@ -12,22 +12,22 @@ public class HomeworkListController implements Controller {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-		HomeworkService service = HomeworkService.getInstance();
-		ArrayList<HomeworkInfo> homeworkList = service.homeworkList();
 		String grade = request.getParameter("grade");
 		String clas = request.getParameter("clas");
 		String subject = request.getParameter("subject");
 		String filter = request.getParameter("filter");
 		String path = null;
-		if(filter.equals("all")) {
-			path = "/index.jsp";
-		}else if(filter.equals("update")) {
-			path = "/memberUpdate.jsp";
-		}else if(filter.equals("delete")) {
-			path = "/memberDelete.jsp";
+		HomeworkService service = HomeworkService.getInstance();
+		ArrayList<HomeworkInfo> homeworkList = null;
+		if(filter.equals("All")) {
+			homeworkList = service.homeworkList();
+			path = "/homeworkListAll.jsp";
+		}else if(filter.equals("Clas")) {
+			homeworkList = service.homeworkList(grade,clas);
+			path = "/homeworkListClas.jsp";
 		}
 		request.setAttribute("homeworkList", homeworkList);
+		request.setAttribute("filter", filter);
 		HTTPUtil.forward(request, response, path);
-
 	}
 }

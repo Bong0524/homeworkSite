@@ -36,86 +36,19 @@ ul {
 </head>
 <body style="display: flex; background: rgb(246, 249, 252)">
 	<c:if test="${empty classList}">
-		<jsp:forward page="ClassListPro" />
+		<jsp:forward page="ClassListPro"/>
 	</c:if>
-	<nav style="height: 100vh; width: 250px; padding: 10px;">
-		<header>
-			<img alt="로고" src="img/logo.png" width="100%">
-		</header>
-		<ul style="font-weight: bold;">
-			<li>홈페이지</li>
-			<li>우리반</li>
-			<li>마이페이지</li>
-			<li><p class="openClassList">학급</p>
-				<ul class="classList" style="font-weight: normal;">
-					<li><p class="openClassList">1학년</p>
-						<ul class="classList">
-							<c:forEach items="${classList }" var="clas">
-								<c:if test="${clas.grade eq 1 }">
-									<li>${clas.clas }반</li>
-								</c:if>
-							</c:forEach>
-						</ul></li>
-					<li><p class="openClassList">2학년</p>
-						<ul class="classList">
-							<c:forEach items="${classList }" var="clas">
-								<c:if test="${clas.grade eq 2 }">
-									<li>${clas.clas }반</li>
-								</c:if>
-							</c:forEach>
-						</ul></li>
-					<li><p class="openClassList">3학년</p>
-						<ul class="classList">
-							<c:forEach items="${classList }" var="clas">
-								<c:if test="${clas.grade eq 3 }">
-									<li>${clas.clas }반</li>
-								</c:if>
-							</c:forEach>
-						</ul></li>
-					<li><p class="openClassList">4학년</p>
-						<ul class="classList">
-							<c:forEach items="${classList }" var="clas">
-								<c:if test="${clas.grade eq 4 }">
-									<li>${clas.clas }반</li>
-								</c:if>
-							</c:forEach>
-						</ul></li>
-					<li><p class="openClassList">5학년</p>
-						<ul class="classList">
-							<c:forEach items="${classList }" var="clas">
-								<c:if test="${clas.grade eq 5 }">
-									<li>${clas.clas }반</li>
-								</c:if>
-							</c:forEach>
-						</ul></li>
-					<li><p class="openClassList">6학년</p>
-						<ul class="classList">
-							<c:forEach items="${classList }" var="clas">
-								<c:if test="${clas.grade eq 6 }">
-									<li>${clas.clas }반</li>
-								</c:if>
-							</c:forEach>
-						</ul></li>
-				</ul>
-			</li>
-		</ul>
-	</nav>
-	<div
-		style="margin: 10px; background-color: white; border-radius: 7px; overflow: hidden; box-shadow: #ccc 0px 0px 10px 1px; flex: 1">
-		<h1
-			style="color: white; background: rgb(69, 56, 40); padding: 10px 30px;">HOME</h1>
-		<section style="padding: 20px;">
-			<jsp:include page="homeworkList.jsp"/>
-		</section>
+	<jsp:include page="menuSide.jsp"/>
+	<div id="section" style="margin: 10px 0; background-color: white; border-radius: 7px; overflow: hidden; box-shadow: #ccc 0px 0px 10px 1px; width: 1120px;">
 	</div>
 	<script type="text/javascript">
-		console.log()
-		$(".openClassList").click(function() {
-			if ($(this).next().css("display") == "none")
-				$(this).next().css("display", "inline-block");
-			else
-				$(this).next().css("display", "none");
-		})
+	clickMenu("All");
+	$(".openClassList").click(function() {
+		if ($(this).next().css("display") == "none")
+			$(this).next().css("display", "inline-block");
+		else
+			$(this).next().css("display", "none");
+	})
 	</script>
 </body>
 </html>

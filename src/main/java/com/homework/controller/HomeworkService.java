@@ -16,7 +16,7 @@ public class HomeworkService {
 		return dao.HomeworkList();
 	}
 	public ArrayList<HomeworkInfo> homeworkList(String grade,String clas) {
-		return dao.HomeworkList();
+		return dao.HomeworkList(grade,clas);
 	}
 	public ArrayList<HomeworkInfo> homeworkSearch(String filter) {
 		return dao.HomeworkList();
