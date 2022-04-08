@@ -41,6 +41,7 @@ insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),1,1,'더하기','math','2022-04-07','2022-04-20');
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'지구','science','2022-04-07','2022-04-10');
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'달','science','2022-04-07','2022-04-8');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),2,1,'독서록','korean','2022-04-07','2022-04-11');
 select * from hw_homework	
 
 --숙제의 문제 테이블

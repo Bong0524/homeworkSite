@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:if test="${empty classList}">
+	<jsp:forward page="ClassListPro"/>
+</c:if>
 <nav style="height: 100vh; width: 250px; padding: 10px;">
 	<header>
 		<img alt="로고" src="img/logo.png" width="100%">
@@ -82,8 +85,13 @@
 	</ul>
 </nav>
 <script type="text/javascript">
-clickMenu("All");
 function clickMenu(f,g,c) {
-	$("#section").load("homeworkList.do", {filter : f, grade : g, clas : c})
+	$("#section").load("homeworkList.do", {filter : f, grade : g, clas : c});
 }
+$(".openClassList").click(function() {
+	if ($(this).next().css("display") == "none")
+		$(this).next().css("display", "block");
+	else
+		$(this).next().css("display", "none");
+})
 </script>

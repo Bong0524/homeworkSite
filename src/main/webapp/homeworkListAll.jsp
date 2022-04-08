@@ -4,28 +4,10 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <style type="text/css">
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-ul {
-	list-style: none;
-	cursor: pointer;
-}
-
 .classList {
 	cursor: pointer;
 	padding-left: 20px;
 	display: none;
-}
-.homeworkTitle{
-	position: absolute; 
-	top: 50%; 
-	left: 50%; 
-	transform: translate(-50%, -50%); 
-	color: white;
 }
 .remain{
 	padding: 5px;
@@ -54,30 +36,29 @@ ul {
 .homework:nth-child(5n+0){
 	margin-right: 0;
 }
+.homeworkTitle{
+	padding: 5px;
+	color: white;
+}
 </style>
 <h1 style="color: white; background: rgb(69, 56, 40); padding: 10px 30px;">HOME</h1>
-<c:if test="${empty homeworkList}">
-	<jsp:forward page="homeworkList.do">
-		<jsp:param value="All" name="filter"/>
-	</jsp:forward>
-</c:if>
 <c:set var="todayInt" value="<%=new java.util.Date().getTime()%>" />
 <div id="homeworkList">
 	<c:forEach items="${homeworkList }" var="homework">
 		<fmt:parseNumber var="time" value="${(homework.enDate.time - todayInt)/1000/60/60}" integerOnly="true"/>
 		<div class="homework">
 			<c:choose>
-				<c:when test="${homework.subject eq 'math'}">
-					<h2 style="background-color: #80ff80; padding: 5px;">${homework.title }</h2>
-				</c:when>
-				<c:when test="${homework.subject eq 'science'}">
-					<h2 style="background-color: #6495ed; padding: 5px;">${homework.title }</h2>
-				</c:when>
 				<c:when test="${homework.subject eq 'korean'}">
-					<h2 style="background-color: #ffd700; padding: 5px;">${homework.title }</h2>
+					<h2 style="background-color: #ce6879;" class="homeworkTitle">${homework.title }</h2>
 				</c:when>
 				<c:when test="${homework.subject eq 'english'}">
-					<h2 style="background-color: #ff9500; padding: 5px;">${homework.title }</h2>
+					<h2 style="background-color: #f2c558;" class="homeworkTitle">${homework.title }</h2>
+				</c:when>
+				<c:when test="${homework.subject eq 'math'}">
+					<h2 style="background-color: #7f9a40;" class="homeworkTitle">${homework.title }</h2>
+				</c:when>
+				<c:when test="${homework.subject eq 'science'}">
+					<h2 style="background-color: #2c8c82;" class="homeworkTitle">${homework.title }</h2>
 				</c:when>
 			</c:choose>
 			<div style="overflow: hidden; position: relative;">
@@ -94,3 +75,8 @@ ul {
 		</div>
 	</c:forEach>
 </div>
+<script type="text/javascript">
+	function clickMark(s) {
+		$("#section").load("homeworkList.do", {filter : "${filter}", grade : "${grade}", clas : "${clas}", subject : s})
+	}
+</script>

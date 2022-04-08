@@ -28,6 +28,8 @@ public class HomeworkListController implements Controller {
 		}
 		request.setAttribute("homeworkList", homeworkList);
 		request.setAttribute("filter", filter);
+		request.setAttribute("grade", grade);
+		request.setAttribute("clas", clas);
 		HTTPUtil.forward(request, response, path);
 	}
 }
