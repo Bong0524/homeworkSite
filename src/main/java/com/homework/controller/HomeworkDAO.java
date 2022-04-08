@@ -15,15 +15,16 @@ public class HomeworkDAO {
 	public static HomeworkDAO getInstance() {
 		return dao;
 	}
-	public ArrayList<HomeworkInfo> HomeworkList(){
-		System.out.println("all List");
+	public ArrayList<HomeworkInfo> HomeworkList(String subject){
+		System.out.println("all List, subject : "+subject);
 		ArrayList<HomeworkInfo> homeworkList = new ArrayList<HomeworkInfo>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			conn = JDBCConnection.getConnection();
-			String sql = "select * from hw_homework";
+			String sql = "select * from hw_homework ";
+			if(subject != null) sql += " where subject = "+"'"+subject+"'";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -47,16 +48,16 @@ public class HomeworkDAO {
 		return homeworkList;
 	}
 	
-	public ArrayList<HomeworkInfo> HomeworkList(String grade, String clas){
+	public ArrayList<HomeworkInfo> HomeworkList(String grade, String clas, String subject){
+		System.out.println("clas List, grade : "+grade+", clas : "+clas+", subject : "+subject);
 		ArrayList<HomeworkInfo> homeworkList = new ArrayList<HomeworkInfo>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			System.out.println("clas List");
-			
 			conn = JDBCConnection.getConnection();
-			String sql = "select * from hw_homework where grade = ? and class = ?";
+			String sql = "select * from hw_homework where grade = ? and class = ? ";
+			if(subject != null) sql += "and subject = "+"'"+subject+"'";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, grade);
 			stmt.setString(2, clas);

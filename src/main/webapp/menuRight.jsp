@@ -18,7 +18,7 @@
 		<p class="bookmarkP">과학</p>
 		<img src="img/bluemark.png" alt="bluemark" class="bookmarkImg">
 	</div>
-	<div class="bookmarkDiv" style="top: 320px;">
+	<div class="bookmarkDiv" style="top: 320px;" onclick="clickMark()">
 		<p class="bookmarkP">전체</p>
 		<img src="img/purplemark.png" alt="purplemark" class="bookmarkImg">
 	</div>

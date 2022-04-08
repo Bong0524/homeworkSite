@@ -12,13 +12,10 @@ public class HomeworkService {
 		return service;
 	}
 	
-	public ArrayList<HomeworkInfo> homeworkList() {
-		return dao.HomeworkList();
+	public ArrayList<HomeworkInfo> homeworkList(String subject) {
+		return dao.HomeworkList(subject);
 	}
-	public ArrayList<HomeworkInfo> homeworkList(String grade,String clas) {
-		return dao.HomeworkList(grade,clas);
-	}
-	public ArrayList<HomeworkInfo> homeworkSearch(String filter) {
-		return dao.HomeworkList();
+	public ArrayList<HomeworkInfo> homeworkList(String grade,String clas, String subject) {
+		return dao.HomeworkList(grade,clas,subject);
 	}
 }
