@@ -10,7 +10,14 @@ public class HomeworkInfo {
 	private String subject;
 	private Date stDate;
 	private Date enDate;
+	private int timeout;
 	
+	public int getTimeout() {
+		return timeout;
+	}
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
 	public String getHomeworkId() {
 		return homeworkId;
 	}

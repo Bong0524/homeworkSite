@@ -23,8 +23,9 @@ public class HomeworkDAO {
 		ResultSet rs = null;
 		try {
 			conn = JDBCConnection.getConnection();
-			String sql = "select * from hw_homework ";
-			if(subject != null) sql += " where subject = "+"'"+subject+"'";
+			String sql = "select homeworkId, grade, class, title, subject, stDate, enDate, ceil(enDate - sysdate+1)as timeout from hw_homework ";
+			if(subject != null) sql += " where subject = "+"'"+subject+"' ";
+			sql += " order by (case when timeout > 0 then 1 end), timeout ";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -36,6 +37,7 @@ public class HomeworkDAO {
 				homework.setSubject(rs.getString(5));
 				homework.setStDate(rs.getDate(6));
 				homework.setEnDate(rs.getDate(7));
+				homework.setTimeout(rs.getInt(8));
 				homeworkList.add(homework);
 			}
 		} catch (ClassNotFoundException e) {
@@ -56,8 +58,9 @@ public class HomeworkDAO {
 		ResultSet rs = null;
 		try {
 			conn = JDBCConnection.getConnection();
-			String sql = "select * from hw_homework where grade = ? and class = ? ";
-			if(subject != null) sql += "and subject = "+"'"+subject+"'";
+			String sql = "select homeworkId, grade, class, title, subject, stDate, enDate, ceil(enDate - sysdate+1)as timeout from hw_homework where grade = ? and class = ? ";
+			if(subject != null) sql += "and subject = "+"'"+subject+"' ";
+			sql += " order by (case when timeout > 0 then 1 end), timeout ";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, grade);
 			stmt.setString(2, clas);
@@ -71,6 +74,7 @@ public class HomeworkDAO {
 				homework.setSubject(rs.getString(5));
 				homework.setStDate(rs.getDate(6));
 				homework.setEnDate(rs.getDate(7));
+				homework.setTimeout(rs.getInt(8));
 				homeworkList.add(homework);
 			}
 		} catch (ClassNotFoundException e) {

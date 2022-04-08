@@ -72,6 +72,9 @@ ul {
 	<section id="section"></section>
 	<jsp:include page="menuRight.jsp"/>
 	<script type="text/javascript">
+		window.onbeforeunload = function() {
+		  return false;
+		};
 		clickMenu('All');
 	</script>
 </body>

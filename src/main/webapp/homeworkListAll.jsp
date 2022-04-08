@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <style type="text/css">
 .classList {
@@ -16,6 +15,9 @@
 	background: #ccc;
 }
 .tight{
+	background: #ff8383;
+}
+.middle{
 	background: #fff783;
 }
 .free{
@@ -27,6 +29,7 @@
 	margin-right: 20px;
 	margin-bottom: 20px;
 	width: 200px;
+	cursor: pointer;
 }
 #homeworkList{
 	padding: 20px; 
@@ -45,7 +48,6 @@
 <c:set var="todayInt" value="<%=new java.util.Date().getTime()%>" />
 <div id="homeworkList">
 	<c:forEach items="${homeworkList }" var="homework">
-		<fmt:parseNumber var="time" value="${(homework.enDate.time - todayInt)/1000/60/60}" integerOnly="true"/>
 		<div class="homework">
 			<c:choose>
 				<c:when test="${homework.subject eq 'korean'}">
@@ -65,10 +67,10 @@
 				<img alt="과목이미지" src="img/${homework.subject}.png" width="200px;" style="padding: 10px;">
 			</div>
 			<c:choose>
-				<c:when test="${time <= 0 }"><p class="end remain">마감</p></c:when>
-				<c:when test="${time <= 3*24 }"><p class="tight remain">
-					<fmt:parseNumber var="day" value="${(time/24)+(1-((time/24)%1))%1}" integerOnly="true" />
-					${day }일 남았어요!</p>
+				<c:when test="${homework.timeout <= 0 }"><p class="end remain">마감</p></c:when>
+				<c:when test="${homework.timeout <= 1 }"><p class="tight remain">오늘까지!!</p></c:when>
+				<c:when test="${homework.timeout <= 3 }"><p class="middle remain">
+					${homework.timeout }일 남았어요!</p>
 				</c:when>
 				<c:otherwise><p class="free remain">${homework.enDate}까지</p></c:otherwise>
 			</c:choose>

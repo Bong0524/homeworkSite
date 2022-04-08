@@ -42,9 +42,8 @@ insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'지구','science','2022-04-07','2022-04-10');
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'달','science','2022-04-07','2022-04-8');
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),2,1,'독서록','korean','2022-04-07','2022-04-11');
-select * from hw_homework	
-
---숙제의 문제 테이블
+select * from hw_homework
+select homeworkId, grade, class, title, subject, stDate, enDate, ceil(enDate - sysdate+1)as timeout from hw_homework order by (case when timeout > 0 then 1 end), timeout
 create table hw_quest(
 homeworkId varchar2(20) not null,
 questNum number(3) not null,
