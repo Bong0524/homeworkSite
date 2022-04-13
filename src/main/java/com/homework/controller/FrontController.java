@@ -19,6 +19,7 @@ public class FrontController extends HttpServlet {
 		charset = config.getInitParameter("charset");
 		hash = new HashMap<>();
 		hash.put("/homeworkList.do", new HomeworkListController());
+		hash.put("/homeworkOpen.do", new HomeworkOpenController());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

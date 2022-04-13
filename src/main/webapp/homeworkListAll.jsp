@@ -44,25 +44,12 @@
 	color: white;
 }
 </style>
-<h1 style="color: white; background: rgb(69, 56, 40); padding: 10px 30px;">HOME</h1>
+<h1 id="innerTitle" class="brown">Home</h1>
 <c:set var="todayInt" value="<%=new java.util.Date().getTime()%>" />
 <div id="homeworkList">
 	<c:forEach items="${homeworkList }" var="homework">
-		<div class="homework">
-			<c:choose>
-				<c:when test="${homework.subject eq 'korean'}">
-					<h2 style="background-color: #ce6879;" class="homeworkTitle">${homework.title }</h2>
-				</c:when>
-				<c:when test="${homework.subject eq 'english'}">
-					<h2 style="background-color: #f2c558;" class="homeworkTitle">${homework.title }</h2>
-				</c:when>
-				<c:when test="${homework.subject eq 'math'}">
-					<h2 style="background-color: #7f9a40;" class="homeworkTitle">${homework.title }</h2>
-				</c:when>
-				<c:when test="${homework.subject eq 'science'}">
-					<h2 style="background-color: #2c8c82;" class="homeworkTitle">${homework.title }</h2>
-				</c:when>
-			</c:choose>
+		<div class="homework" onclick="openHomework('${homework.homeworkId}')">
+			<h2 class="homeworkTitle ${homework.subject}">${homework.title }</h2>
 			<div style="overflow: hidden; position: relative;">
 				<img alt="과목이미지" src="img/${homework.subject}.png" width="200px;" style="padding: 10px;">
 			</div>
@@ -78,7 +65,8 @@
 	</c:forEach>
 </div>
 <script type="text/javascript">
+	$("#subjectBookMark").css("display","block");
 	function clickMark(s) {
-		$("#section").load("homeworkList.do", {filter : "${filter}", grade : "${grade}", clas : "${clas}", subject : s})
+		$("#section").load("homeworkList.do", {filter : "${filter}", grade : "${grade}", clas : "${clas}", subject : s});
 	}
 </script>

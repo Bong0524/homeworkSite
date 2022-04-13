@@ -8,10 +8,17 @@ public class HomeworkInfo {
 	private String clas;
 	private String title;
 	private String subject;
+	private String ps; 
 	private Date stDate;
 	private Date enDate;
 	private int timeout;
 	
+	public String getPs() {
+		return ps;
+	}
+	public void setPs(String ps) {
+		this.ps = ps;
+	}
 	public int getTimeout() {
 		return timeout;
 	}
