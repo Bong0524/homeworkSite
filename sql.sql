@@ -39,21 +39,19 @@ grade number(1) not null,
 class number(1) not null, 
 title varchar2(100) not null,
 subject varchar2(10),
-ps long,
 stDate date default sysdate,
 enDate date not null
 )
 select * from hw_homework
 
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'더하기빼기','math',null,'2022-04-06','2022-04-07');
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'더하기빼기2','math',null,'2022-04-06','2022-04-07');
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),1,1,'더하기','math',null,'2022-04-07','2022-04-20');
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'지구','science',null,'2022-04-07','2022-04-10');
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'달','science',null,'2022-04-07','2022-04-8');
-insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),2,1,'독서록','korean',null,'2022-04-07','2022-04-11');
-select homeworkId, grade, class, title, subject, ps, stDate, enDate, ceil(enDate - sysdate+1)as timeout from hw_homework order by (case when timeout > 0 then 1 end), timeout
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'곱셈나눗셈','math','2022-04-06','2022-04-07');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'덧셈뺄셈','math','2022-04-06','2022-04-07');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),1,1,'덧셈','math','2022-04-07','2022-04-20');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'지구','science','2022-04-07','2022-04-10');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'달','science','2022-04-07','2022-04-8');
+insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),2,1,'독서록','korean','2022-04-07','2022-04-11');
+select homeworkId, grade, class, title, subject, stDate, enDate, ceil(enDate - sysdate+1)as timeout from hw_homework order by (case when timeout > 0 then 1 end), timeout
 
-update hw_homework set grade = 4, title = '곱하기 나누기' where homeworkId = 0
 
 --숙제의 문제 테이블
 drop table hw_quest
@@ -83,9 +81,6 @@ insert into hw_quest(homeworkId,questNum,kind,quest,answer,first,second,third,fo
 insert into hw_quest(homeworkId,questNum,kind,quest,answer,first,second,third,fourth,fifth) values(0,9,'five','계산결과가 가장 큰 것을 고르시오.','3','(18×5)÷9','(20÷4)×2','(24×6)÷12','(6×10)÷12','(22×5)÷11');
 insert into hw_quest(homeworkId,questNum,kind,quest) values(0,10,'long','평행사변형의 조건을 서술하시오.');
 
-insert into hw_quest values('0',1,'5＋7','12');
-insert into hw_quest values('0',2,'5－5','0');
-insert into hw_quest values('1',1,'5－3','2');
 insert into hw_quest values('5',1,'책한권 읽고 독서록 쓰기',null);
 select * from hw_homework h inner join hw_quest q on h.homeworkId = q.homeworkId where h.homeworkId = '0'
 select * from hw_quest where homeworkId = 0 order by questNum
@@ -94,19 +89,29 @@ select * from hw_quest where homeworkId = 0 order by questNum
 drop table hw_submit
 create table hw_submit(
 homeworkId number(10) not null,
+id varchar2(20) not null,
+grade number(1) not null, 
+class number(1) not null, 
+name varchar2(10) not null,
+num number(1) not null,
+feedback varchar2(1000),
+subDate date default sysdate,
+confirm number(1) default 0,
+constraint submit_pk primary key(homeworkId,id)
+)
+select * from hw_submit
+
+--제출물의 문제 테이블
+drop table hw_submitQ
+create table hw_submitQ(
+homeworkId number(10) not null,
 questNum number(3) not null,
 answer long not null,
 id varchar2(20) not null,
-num number(1) not null,
-name varchar2(10) not null,
-subDate date default sysdate,
 feedback varchar2(1000),
-constraint submit_pk primary key(homeworkId,id,questNum)
+correct number(1),
+constraint submitQ_pk primary key(homeworkId,id,questNum)
 )
-select * from hw_submit
-select id from hw_submit where homeworkId = 0 group by id;
-select id from hw_submit where homeworkId = 0 and id = 'hong';
-select * from hw_submit where homeworkId = 0 and id = 'hong' order by questNum
-
-
-
+select * from hw_submitQ where homeworkId = 0 and id = 'hong' order by questNum
+select * from hw_submitQ
+alter table hw_submitQ add(correct number(1));

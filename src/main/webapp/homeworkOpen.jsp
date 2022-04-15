@@ -12,7 +12,10 @@
 			<%--오지선다 --%>
 			<c:when test="${quest.kind eq 'five' }">
 				<div style="display: flex; flex-wrap: wrap;" class="quest five">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 					<div style="display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%;">
 						<span class="selectInQuest">①${quest.first }</span>
@@ -26,7 +29,10 @@
 			<%--다답형 --%>
 			<c:when test="${quest.kind eq 'four' }">
 				<div style="display: flex; flex-wrap: wrap;" class="quest four">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 					<div style="display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%; border: 1px solid black; padding: 5px;">
 						<span class="selectInQuest">ㄱ. ${quest.first }</span>
@@ -39,14 +45,20 @@
 			<%--단답형 --%>
 			<c:when test="${quest.kind eq 'short' }">
 				<div class="quest short">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 				</div>
 			</c:when>
 			<%--서술형 --%>
 			<c:when test="${quest.kind eq 'long' }">
 				<div class="quest long">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 				</div>
 			</c:when>

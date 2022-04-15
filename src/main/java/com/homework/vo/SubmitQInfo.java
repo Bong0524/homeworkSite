@@ -1,16 +1,18 @@
 package com.homework.vo;
 
-import java.sql.Date;
-
-public class SubmitList {
+public class SubmitQInfo {
 	private String homeworkId; 
 	private String questNum; 
 	private String answer; 
 	private String id; 
-	private String num; 
-	private String name; 
-	private Date subDate; 
 	private String feedback;
+	private String correct;
+	public String getCorrect() {
+		return correct;
+	}
+	public void setCorrect(String correct) {
+		this.correct = correct;
+	}
 	public String getHomeworkId() {
 		return homeworkId;
 	}
@@ -34,24 +36,6 @@ public class SubmitList {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getNum() {
-		return num;
-	}
-	public void setNum(String num) {
-		this.num = num;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Date getSubDate() {
-		return subDate;
-	}
-	public void setSubDate(Date subDate) {
-		this.subDate = subDate;
 	}
 	public String getFeedback() {
 		return feedback;

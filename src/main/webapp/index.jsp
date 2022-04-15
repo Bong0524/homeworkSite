@@ -29,6 +29,7 @@ ul {
 	box-shadow: #ccc 0px 0px 10px 1px; 
 	width: 1120px; 
 	z-index: 3;
+	position: relative;
 }
 .classList {
 	cursor: pointer;
@@ -64,6 +65,11 @@ ul {
 	padding: 10px 30px;
 	height: 6%;
 	font-size: 25px;
+}
+#coverTitle{
+	color: white; 
+	padding: 10px 30px;
+	font-size: 20px;
 }
 .brown{
 	background: rgb(69, 56, 40); 
@@ -153,7 +159,7 @@ ul {
 	position: relative;
 }
 .quest.five, .quest.four{
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 .quest.short{
 	margin-bottom: 60px;

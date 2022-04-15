@@ -9,7 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import com.homework.vo.HomeworkInfo;
 import com.homework.vo.QuestInfo;
-import com.homework.vo.SubmitList;
+import com.homework.vo.SubmitInfo;
+import com.homework.vo.SubmitQInfo;
 import com.homework.vo.UserInfo;
 
 public class HomeworkOpenController implements Controller {
@@ -25,9 +26,10 @@ public class HomeworkOpenController implements Controller {
 		HomeworkService service = HomeworkService.getInstance();
 		HomeworkInfo homework = service.homework(homeworkId);
 		ArrayList<QuestInfo> questList = service.questList(homeworkId);
-		String resolved = service.resolved(user);
-		ArrayList<SubmitList> submitList = service.submitList(homeworkId,user);
-		
+		String resolved = service.resolved(homeworkId, user);
+		ArrayList<SubmitQInfo> submitQList = service.submitQList(homeworkId,user);
+		SubmitInfo submission = service.submission(homeworkId,user);
+		System.out.println(resolved);
 		if(resolved.equals("0")) {
 			if(how.equals("open")) path = "/homeworkOpen.jsp";
 			else if(how.equals("resolve")) path = "/homeworkResolve.jsp";
@@ -37,7 +39,8 @@ public class HomeworkOpenController implements Controller {
 			
 		request.setAttribute("homework", homework);
 		request.setAttribute("questList", questList);
-		request.setAttribute("submitList", submitList);
+		request.setAttribute("submitQList", submitQList);
+		request.setAttribute("submission", submission);
 		
 		HTTPUtil.forward(request, response, path);
 	}

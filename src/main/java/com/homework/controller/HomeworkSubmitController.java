@@ -18,18 +18,16 @@ public class HomeworkSubmitController implements Controller {
 		UserInfo user = (UserInfo)session.getAttribute("user");
 		String homeworkId = request.getParameter("homeworkId");
 		HomeworkService service = HomeworkService.getInstance();
-		ArrayList<QuestInfo> questList = null;
+		ArrayList<QuestInfo> questList = service.questList(homeworkId);
+		
+		service.homeworkSubmit(homeworkId,user);
+		
 		String answer = null;
-		
-		questList = service.questList(homeworkId);
-		
 		for(int i = 0 ; i < questList.size() ; i++) {
 			if(questList.get(i).getKind().equals("four")) answer = String.join("", request.getParameterValues(""+i));
 			else answer = request.getParameter(""+i);
-			service.homeworkSubmit(homeworkId,questList.get(i).getQuestNum(),answer,user);
+			service.homeworkSubmitQ(homeworkId,questList.get(i),answer,user);
 		}
-		
 		HTTPUtil.redirect(response, "/homework");
 	}
-
 }

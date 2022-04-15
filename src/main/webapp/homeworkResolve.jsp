@@ -14,7 +14,10 @@
 			<%--오지선다 --%>
 			<c:when test="${quest.kind eq 'five' }">
 				<div style="display: flex; flex-wrap: wrap;" class="quest five">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 					<div style="display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%;">
 						<input type="radio" value="1" name="${status.index }" id="${quest.questNum }-1" class="check">
@@ -33,7 +36,10 @@
 			<%--다답형 --%>
 			<c:when test="${quest.kind eq 'four' }">
 				<div style="display: flex; flex-wrap: wrap;" class="quest four">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 					<div style="display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%; border: 1px solid black; padding: 5px;">
 						<input type="checkbox" value="ㄱ" name="${status.index }" id="${quest.questNum }-1" class="check">	
@@ -50,7 +56,10 @@
 			<%--단답형 --%>
 			<c:when test="${quest.kind eq 'short' }">
 				<div class="quest short">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 					<input type="text" class="answer" name="${status.index }">
 				</div>
@@ -58,7 +67,10 @@
 			<%--서술형 --%>
 			<c:when test="${quest.kind eq 'long' }">
 				<div class="quest long">
-					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
+					<div style="display: flex;">
+						<span style="width: 30px;">${status.count }.</span>
+						<span style="word-break: keep-all;"> ${quest.quest }</span>
+					</div>
 					<div class="questImageBox"></div>
 					<textarea class="answer" name="${status.index }"></textarea>
 				</div>

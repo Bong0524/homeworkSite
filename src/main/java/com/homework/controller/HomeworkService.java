@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import com.homework.vo.ClassInfo;
 import com.homework.vo.HomeworkInfo;
 import com.homework.vo.QuestInfo;
-import com.homework.vo.SubmitList;
+import com.homework.vo.SubmitInfo;
+import com.homework.vo.SubmitQInfo;
 import com.homework.vo.UserInfo;
 
 public class HomeworkService {
@@ -28,8 +29,8 @@ public class HomeworkService {
 	public ArrayList<QuestInfo> questList(String homeworkId) {
 		return dao.QuestList(homeworkId);
 	}
-	public void homeworkSubmit(String homeworkId, String questNum, String answer, UserInfo user) {
-		dao.HomeworkSubmit(homeworkId,questNum,answer,user);
+	public void homeworkSubmitQ(String homeworkId, QuestInfo quest, String answer, UserInfo user) {
+		dao.HomeworkSubmitQ(homeworkId,quest,answer,user);
 	}
 
 	public UserInfo user(String id) {
@@ -40,12 +41,20 @@ public class HomeworkService {
 		return dao.ClassList();
 	}
 
-	public String resolved(UserInfo user) {
-		return dao.Resolved(user);
+	public String resolved(String homeworkId, UserInfo user) {
+		return dao.Resolved(homeworkId, user);
 	}
 
-	public ArrayList<SubmitList> submitList(String homeworkId, UserInfo user) {
-		return dao.SubmitList(homeworkId, user);
+	public ArrayList<SubmitQInfo> submitQList(String homeworkId, UserInfo user) {
+		return dao.SubmitQList(homeworkId, user);
+	}
+
+	public void homeworkSubmit(String homeworkId, UserInfo user) {
+		dao.HomeworkSubmit(homeworkId, user);
+	}
+
+	public SubmitInfo submission(String homeworkId, UserInfo user) {
+		return dao.Submission(homeworkId, user);
 	}
 
 
