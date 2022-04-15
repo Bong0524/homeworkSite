@@ -15,17 +15,22 @@ insert into hw_class values(6,1);
 insert into hw_class values(6,2);
 
 --유저 테이블
+drop table hw_user
 create table hw_user(
 id varchar2(20) primary key not null, 
 pw varchar2(20) not null, 
 name varchar2(10) not null, 
+tel varchar2(20) not null,
+parent varchar2(20),
 grade number(1) not null, 
 class number(1) not null, 
-num number(2),
-position varchar2(20) default '학생'
+num number(2) not null,
+position varchar2(20) default '학생',
+confirmed number(1) default 0
 )
 select * from hw_user
-
+insert into hw_user values('hong','1234','홍길동','010-1111-2222','010-2222-3333','6','2','3','학생','0')
+select * from hw_user where id = 'hong'
 --숙제 테이블
 drop table hw_homework
 create table hw_homework(
@@ -86,8 +91,9 @@ select * from hw_homework h inner join hw_quest q on h.homeworkId = q.homeworkId
 select * from hw_quest where homeworkId = 0 order by questNum
 
 --제출물 테이블
+drop table hw_submit
 create table hw_submit(
-homeworkId varchar2(20) not null,
+homeworkId number(10) not null,
 questNum number(3) not null,
 answer long not null,
 id varchar2(20) not null,
@@ -98,9 +104,9 @@ feedback varchar2(1000),
 constraint submit_pk primary key(homeworkId,id,questNum)
 )
 select * from hw_submit
-
-
-
+select id from hw_submit where homeworkId = 0 group by id;
+select id from hw_submit where homeworkId = 0 and id = 'hong';
+select * from hw_submit where homeworkId = 0 and id = 'hong' order by questNum
 
 
 

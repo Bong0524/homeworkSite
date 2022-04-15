@@ -202,7 +202,9 @@ label {
 	<jsp:include page="menuRight.jsp"/>
 	<script type="text/javascript">
 	clickMenu('All');
-	
+	function clickMenu(f,g,c) {
+		$("#section").load("homeworkList.do", {filter : f, grade : g, clas : c});
+	}
 	function openHomework(homeworkId) {
 		$("#section").load("homeworkOpen.do", {homeworkId : homeworkId, how : "open"});
 	}

@@ -7,7 +7,8 @@
 
 </style>
 <h1 id="innerTitle" class="${homework.subject }">${homework.title }</h1>
-<div id="questBox">
+<form id="questBox" name="resolveForm" action="homeworkSubmit.do" method="post">
+	<input type="hidden" name="homeworkId" value="${homework.homeworkId }">
 	<c:forEach items="${questList }" var="quest" varStatus="status">
 		<c:choose>
 			<%--오지선다 --%>
@@ -16,15 +17,15 @@
 					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
 					<div class="questImageBox"></div>
 					<div style="display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%;">
-						<input type="radio" value="1" name="${quest.questNum }" id="${quest.questNum }-1" class="check">
+						<input type="radio" value="1" name="${status.index }" id="${quest.questNum }-1" class="check">
 						<label class="selectInQuest" for="${quest.questNum }-1">①${quest.first }</label>
-						<input type="radio" value="2" name="${quest.questNum }" id="${quest.questNum }-2" class="check">
+						<input type="radio" value="2" name="${status.index }" id="${quest.questNum }-2" class="check">
 						<label class="selectInQuest" for="${quest.questNum }-2">②${quest.second }</label>
-						<input type="radio" value="3" name="${quest.questNum }" id="${quest.questNum }-3" class="check">
+						<input type="radio" value="3" name="${status.index }" id="${quest.questNum }-3" class="check">
 						<label class="selectInQuest" for="${quest.questNum }-3">③${quest.third }</label>
-						<input type="radio" value="4" name="${quest.questNum }" id="${quest.questNum }-4" class="check">
+						<input type="radio" value="4" name="${status.index }" id="${quest.questNum }-4" class="check">
 						<label class="selectInQuest" for="${quest.questNum }-4">④${quest.fourth }</label>
-						<input type="radio" value="5" name="${quest.questNum }" id="${quest.questNum }-5" class="check">
+						<input type="radio" value="5" name="${status.index }" id="${quest.questNum }-5" class="check">
 						<label class="selectInQuest" for="${quest.questNum }-5">⑤${quest.fifth }</label>
 					</div>
 				</div>
@@ -35,13 +36,13 @@
 					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
 					<div class="questImageBox"></div>
 					<div style="display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%; border: 1px solid black; padding: 5px;">
-						<input type="checkbox" value="ㄱ" name="${quest.questNum }" id="${quest.questNum }-1" class="check">	
+						<input type="checkbox" value="ㄱ" name="${status.index }" id="${quest.questNum }-1" class="check">	
 						<label class="selectInQuest" for="${quest.questNum }-1">ㄱ. ${quest.first }</label>
-						<input type="checkbox" value="ㄴ" name="${quest.questNum }" id="${quest.questNum }-2" class="check">	
+						<input type="checkbox" value="ㄴ" name="${status.index }" id="${quest.questNum }-2" class="check">	
 						<label class="selectInQuest" for="${quest.questNum }-2">ㄴ. ${quest.second }</label>
-						<input type="checkbox" value="ㄷ" name="${quest.questNum }" id="${quest.questNum }-3" class="check">	
+						<input type="checkbox" value="ㄷ" name="${status.index }" id="${quest.questNum }-3" class="check">	
 						<label class="selectInQuest" for="${quest.questNum }-3">ㄷ. ${quest.third }</label>
-						<input type="checkbox" value="ㄹ" name="${quest.questNum }" id="${quest.questNum }-4" class="check">	
+						<input type="checkbox" value="ㄹ" name="${status.index }" id="${quest.questNum }-4" class="check">	
 						<label class="selectInQuest" for="${quest.questNum }-4">ㄹ. ${quest.fourth }</label>
 					</div>
 				</div>
@@ -51,7 +52,7 @@
 				<div class="quest short">
 					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
 					<div class="questImageBox"></div>
-					<input type="text" class="answer" name="${quest.questNum }">
+					<input type="text" class="answer" name="${status.index }">
 				</div>
 			</c:when>
 			<%--서술형 --%>
@@ -59,18 +60,18 @@
 				<div class="quest long">
 					<span style="word-break: keep-all;">${status.count }. ${quest.quest }</span>
 					<div class="questImageBox"></div>
-					<textarea class="answer" name="${quest.questNum }"></textarea>
+					<textarea class="answer" name="${status.index }"></textarea>
 				</div>
 			</c:when>
 		</c:choose>
 	</c:forEach>
-	<button class="resolveBtn" onclick="openHomework('${homework.homeworkId}')">돌아가기</button>
-	<button onclick="submitBtn()">제출하기</button>
-</div>
+	<button class="resolveBtn" onclick="openHomework('${homework.homeworkId}'); return false;">돌아가기</button>
+	<button onclick="submitBtn(); return false;">제출하기</button>
+</form>
 <script type="text/javascript">
 	$("#subjectBookMark").css("display","none");
 	function submitBtn() {
-		for(var i = 1 ; i <= ${fn:length(questList)} ; i++){
+		 		for(var i = 1 ; i <= ${fn:length(questList)} ; i++){
 			if($("input[name="+i+"]").length == 1) {
 				if(!$("input[name="+i+"]").val()){
 					alert("모든 문제를 풀어주세요.");
@@ -83,7 +84,6 @@
 				}
 			}
 		}
-		console.log("success");
+		resolveForm.submit();
 	}
-	
 </script>

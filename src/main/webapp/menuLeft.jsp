@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:if test="${empty classList}">
-	<jsp:forward page="ClassListPro"/>
+<c:if test="${empty classList }">
+	<jsp:forward page="classList.do">
+		<jsp:param value="index" name="url"/>
+	</jsp:forward>
 </c:if>
 <nav style="height: 100vh; width: 250px; padding: 10px;">
 	<header>
@@ -10,9 +12,17 @@
 	</header>
 	<ul style="font-weight: bold;">
 		<li onclick="clickMenu('All')">홈페이지</li>
-		<li>우리학급</li>
-		<li>마이페이지</li>
-		<li><p class="openClassList">학급</p>
+		<c:choose>
+			<c:when test="${empty user }">
+				<li onclick="location.href='login.jsp'">로그인</li>
+			</c:when>
+			<c:otherwise>
+				<li onclick="clickMenu('Clas',${user.grade},${user.clas })">우리학급</li>
+				<li>마이페이지</li>
+				<li onclick="location.href='user.do'">로그아웃</li>
+			</c:otherwise>
+		</c:choose>
+		<li><p class="openClassList">학급목록</p>
 			<ul class="classList" style="font-weight: normal;">
 				<li><p class="openClassList">1학년</p>
 					<ul class="classList">
@@ -85,9 +95,6 @@
 	</ul>
 </nav>
 <script type="text/javascript">
-function clickMenu(f,g,c) {
-	$("#section").load("homeworkList.do", {filter : f, grade : g, clas : c});
-}
 $(".openClassList").click(function() {
 	if ($(this).next().css("display") == "none")
 		$(this).next().css("display", "block");
