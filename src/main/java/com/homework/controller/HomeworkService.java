@@ -57,5 +57,29 @@ public class HomeworkService {
 		return dao.Submission(homeworkId, user);
 	}
 
+	public ArrayList<SubmitInfo> submitList(String homeworkId) {
+		return dao.SubmitList(homeworkId);
+	}
+
+	public ArrayList<SubmitQInfo> submitQList(String homeworkId, String studentId) {
+		return dao.SubmitQList(homeworkId, studentId);
+	}
+
+	public SubmitInfo submission(String homeworkId, String studentId) {
+		return dao.Submission(homeworkId, studentId);
+	}
+
+	public void confirmCorrect(String[] correctList, String homeworkId, String studentId) {
+		dao.ConfirmCorrect(correctList, homeworkId, studentId);
+	}
+
+	public void confirmExplan(String[] explanList, String homeworkId, String studentId) {
+		dao.ConfirmExplan(explanList, homeworkId, studentId);
+	}
+
+	public void confirm(String homeworkId, String studentId) {
+		dao.Confirm(homeworkId, studentId);
+	}
+
 
 }

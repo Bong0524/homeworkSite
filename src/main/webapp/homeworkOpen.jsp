@@ -64,7 +64,7 @@
 			</c:when>
 		</c:choose>
 	</c:forEach>
-	<button class="resolveBtn" onclick="resolveHomework('${homework.homeworkId}')">문제풀기</button>
+	<button class="bottomBtn" onclick="resolveHomework('${homework.homeworkId}')">문제풀기</button>
 </div>
 <script type="text/javascript">
 	$("#subjectBookMark").css("display","none");

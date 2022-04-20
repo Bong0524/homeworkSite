@@ -30,6 +30,7 @@ confirmed number(1) default 0
 )
 select * from hw_user
 insert into hw_user values('hong','1234','홍길동','010-1111-2222','010-2222-3333','6','2','3','학생','0')
+insert into hw_user values('teac','1234','홍사범','010-2222-4444',null,'6','2','3','선생','1')
 select * from hw_user where id = 'hong'
 --숙제 테이블
 drop table hw_homework
@@ -51,7 +52,6 @@ insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),3,1,'달','science','2022-04-07','2022-04-8');
 insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),2,1,'독서록','korean','2022-04-07','2022-04-11');
 select homeworkId, grade, class, title, subject, stDate, enDate, ceil(enDate - sysdate+1)as timeout from hw_homework order by (case when timeout > 0 then 1 end), timeout
-
 
 --숙제의 문제 테이블
 drop table hw_quest
@@ -99,8 +99,8 @@ subDate date default sysdate,
 confirm number(1) default 0,
 constraint submit_pk primary key(homeworkId,id)
 )
-select * from hw_submit
-
+select * from hw_submit where homeworkId = 0
+delete from hw_submit where id = 'teac'
 --제출물의 문제 테이블
 drop table hw_submitQ
 create table hw_submitQ(
@@ -114,4 +114,19 @@ constraint submitQ_pk primary key(homeworkId,id,questNum)
 )
 select * from hw_submitQ where homeworkId = 0 and id = 'hong' order by questNum
 select * from hw_submitQ
-alter table hw_submitQ add(correct number(1));
+update hw_submitQ set correct = 1 where homeworkId = 0 and id = 'hong' and questNum = 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

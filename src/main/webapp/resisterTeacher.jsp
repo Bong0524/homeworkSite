@@ -1,16 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>휴먼웹툰 회원가입</title>
+<title>숙제마당 회원가입</title>
 <link rel="icon" href="img/logo/favicon.ico">
 <style type="text/css">
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+body{
+	background: rgb(246, 249, 252);
 }
 
 #container {
@@ -48,9 +54,9 @@ input {
 }
 
 #resisterBox {
-	margin: 30px auto 10px;
+	margin: 0 auto 10px;
 	padding: 25px 30px;
-	width: 400px;
+	width: fit-content;
 	border-radius: 3px;
 }
 
@@ -73,6 +79,10 @@ input {
 .classInp{
 	width: 50px;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
 </style>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -80,10 +90,23 @@ input {
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
+<c:if test="${empty classList }">
+	<jsp:forward page="classList.do">
+		<jsp:param value="resisterStudent" name="url"/>
+	</jsp:forward>
+</c:if>
+<c:forEach items="${classList }" var="clas" varStatus="ds">
+	<c:if test="${clas.grade eq 1}"><c:set var="max_1" value="${clas.clas }"/></c:if>
+	<c:if test="${clas.grade eq 2}"><c:set var="max_2" value="${clas.clas }"/></c:if>
+	<c:if test="${clas.grade eq 3}"><c:set var="max_3" value="${clas.clas }"/></c:if>
+	<c:if test="${clas.grade eq 4}"><c:set var="max_4" value="${clas.clas }"/></c:if>
+	<c:if test="${clas.grade eq 5}"><c:set var="max_5" value="${clas.clas }"/></c:if>
+	<c:if test="${clas.grade eq 6}"><c:set var="max_6" value="${clas.clas }"/></c:if>
+</c:forEach>
 	<div id="container">
 		<form action="ResisterPro" method="post" name="resisterForm">
 			<a href="index.jsp"><img id="logo" width="400px;" alt="LOGO" src="img/logo.png"></a>
-			<fieldset id="resisterBox">
+			<div id="resisterBox">
 				<div style="text-align: left;">
 					<p class="label">아이디</p>
 					<input class="inputBox" type="text" name="id" id="id">
@@ -97,8 +120,10 @@ input {
 					<input class="inputBox" type="text" name="tel" id="tel">
 					<p class="label">학급정보</p>
 					
-					<input class="inputBox classInp" type="number" name="grade" max="6" min="1" id="grade">학년
-					<input class="inputBox classInp" type="number" name="clas" id="clas">반
+					<input class="inputBox classInp" type="number" name="grade" min="1" max="6" id="grade" value="1" onchange="setMax()">학년
+					<input class="inputBox classInp" type="number" name="clas" min="1" max="1" id="clas" value="1">반
+					<input class="inputBox classInp" type="number" name="num" min="1" max="50" id="num" value="1">번
+					
 					
 					<p class="warning" id="gradeMessage"></p>
 					<input type="checkbox" id="agree"
@@ -113,93 +138,23 @@ input {
 					<p id="agreeMessage" style="color: red; margin-left: 10px"></p>
 				</div>
 				<input id="resisterBtn" type="button" value="회원가입">
-			</fieldset>
+			</div>
 		</form>
 	</div>
 	<script type="text/javascript">
-	var inputBox = document.getElementsByClassName("inputBox");
-	var surely = document.getElementsByClassName("surely");
-	var overlap;
-	/* 입력항목 유효성 검사 */
-	$("#resisterBtn").click(function(e) {
-		e.preventDefault();
-		/* 유효하지 않은 항목에 대한 메세지 출력 */
-		for(var i = 0 ; i < inputBox.length ; i++){
-		if(!inputBox[i].value){
-				surely[i].innerText = "필수 입력 항목입니다.";
-			}
-		}
-		if(!$("#agree").is(":checked")){
-			$("#agreeMessage").text("가입하시려면 약관에 동의해주세요.");
-		}
-		/* 유효하지 않은 항목이 있으면 가입을 막는 구문 */
-		for(var i = 0 ; i < inputBox.length ; i++){
-			if(!inputBox[i].value){
-				inputBox[i].focus();
-				return;
-			}
-		}
-		if(overlap==1){
-			$("#id").focus()
-			return;
-		}
-		if($("#pw").val()!=$("#pwRe").val()){
-			$("#pwRe").focus()
-			return;
-		}
-		if(!$("#agree").is(":checked")){
-			return;
-		}
-		resisterForm.submit();
-	})
-	
-	
-	/* 입력/변경시 유효한 칸의 유도문 추가/제거 */
-	
-	$("#pw").change(function() {
-		$("#pwMessage").text($("#pw").val()!="" ? "":"필수 입력 항목입니다.");
-	})
-	$("#pwRe").change(function() {
-		if($("#pwRe").val()==""){
-			$("#pwReMessage").text("필수 입력 항목입니다.");
-		}else if($("#pw").val()!=$("#pwRe").val()){
-			$("#pwReMessage").text("비밀번호가 일치하지 않습니다.");
-		}else{
-			$("#pwReMessage").text("");
-		}
-	})
-	$("#name").change(function() {
-		$("#nameMessage").text($("#name").val()!="" ? "":"필수 입력 항목입니다.");
-	})
-	
-	$("#agree").change(function() {
-		$("#agreeMessage").text($("#agree").is(":checked") ? "":"가입하시려면 약관에 동의해주세요.");
-	})
-	
-	/* 아이디 중복체크 및 유효성 검사 */
-	$("#id").change(function() {
-		$.ajax({
-			type:"post",
-			url:"http://localhost:8081/webtoon/IdOverlapPro",
-			data:{id:$("#id").val()},
-			success: function(data){
-				overlap = data;
-				if(overlap==1){
-					$("#idMessage").css("color", "red");
-					$("#idMessage").text("이미 존재하는 아이디입니다.");
-				}else{
-					$("#idMessage").css("color", "lime");
-					$("#idMessage").text("멋진 아이디로군요!");
-				}
-				if($("#id").val()==""){
-					$("#idMessage").css("color", "red");
-					$("#idMessage").text("필수 입력 항목입니다.");
-				}
-			},
-			error:function(){
-				alert("오류");
-			}
-		});
+	//학년에 따른 반 설정 최대치 설정
+	function setMax() {
+		if($("#grade").val() == 1) $("#clas").attr("max", ${max_1});
+		else if($("#grade").val() == 2) $("#clas").attr("max", ${max_2});
+		else if($("#grade").val() == 3) $("#clas").attr("max", ${max_3});
+		else if($("#grade").val() == 4) $("#clas").attr("max", ${max_4});
+		else if($("#grade").val() == 5) $("#clas").attr("max", ${max_5});
+		else if($("#grade").val() == 6) $("#clas").attr("max", ${max_6});
+	}
+	//최대치를 넘은 숫자를 기입할경우 최대치로 설정
+	$(".classInp").change(function() {
+		if($(this).val()-0 > $(this).attr("max")) $(this).val($(this).attr("max"))
+		else if($(this).val()-0 < $(this).attr("min")) $(this).val($(this).attr("min"))
 	});
 	
 </script>

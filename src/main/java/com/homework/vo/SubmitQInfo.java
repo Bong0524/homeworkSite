@@ -5,7 +5,7 @@ public class SubmitQInfo {
 	private String questNum; 
 	private String answer; 
 	private String id; 
-	private String feedback;
+	private String explan;
 	private String correct;
 	public String getCorrect() {
 		return correct;
@@ -37,10 +37,10 @@ public class SubmitQInfo {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getFeedback() {
-		return feedback;
+	public String getExplan() {
+		return explan;
 	}
-	public void setFeedback(String feedback) {
-		this.feedback = feedback;
-	} 
+	public void setExplan(String explan) {
+		this.explan = explan;
+	}
 }

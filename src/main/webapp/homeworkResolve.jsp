@@ -76,14 +76,14 @@
 				</div>
 			</c:when>
 		</c:choose>
-	</c:forEach>
-	<button class="resolveBtn" onclick="openHomework('${homework.homeworkId}'); return false;">돌아가기</button>
+	</c:forEach>	
+	<button class="bottomBtn" onclick="openHomework('${homework.homeworkId}'); return false;">돌아가기</button>
 	<button onclick="submitBtn(); return false;">제출하기</button>
 </form>
 <script type="text/javascript">
 	$("#subjectBookMark").css("display","none");
 	function submitBtn() {
-		 		for(var i = 1 ; i <= ${fn:length(questList)} ; i++){
+		 for(var i = 1 ; i <= ${fn:length(questList)} ; i++){
 			if($("input[name="+i+"]").length == 1) {
 				if(!$("input[name="+i+"]").val()){
 					alert("모든 문제를 풀어주세요.");

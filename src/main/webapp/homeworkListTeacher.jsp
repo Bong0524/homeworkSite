@@ -5,8 +5,7 @@
 <style type="text/css">
 
 </style>
-<h1 id="innerTitle" class="brown">Home</h1>
-<c:set var="todayInt" value="<%=new java.util.Date().getTime()%>" />
+<h1 id="innerTitle" class="brown">Class 선생</h1>
 <div id="homeworkList">
 	<c:forEach items="${homeworkList }" var="homework">
 		<div class="homework" onclick="openHomework('${homework.homeworkId}')">
@@ -17,9 +16,7 @@
 			<c:choose>
 				<c:when test="${homework.timeout <= 0 }"><p class="end remain">마감</p></c:when>
 				<c:when test="${homework.timeout <= 1 }"><p class="tight remain">오늘까지!!</p></c:when>
-				<c:when test="${homework.timeout <= 3 }"><p class="middle remain">
-					${homework.timeout }일 남았어요!</p>
-				</c:when>
+				<c:when test="${homework.timeout <= 3 }"><p class="middle remain">${homework.timeout }일 남았어요!</p></c:when>
 				<c:otherwise><p class="free remain">${homework.enDate}까지</p></c:otherwise>
 			</c:choose>
 		</div>
