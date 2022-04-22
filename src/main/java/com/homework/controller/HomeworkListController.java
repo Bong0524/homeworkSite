@@ -24,17 +24,21 @@ public class HomeworkListController implements Controller {
 		HomeworkService service = HomeworkService.getInstance();
 		ArrayList<HomeworkInfo> homeworkList = null;
 		if(filter.equals("All")) {
-			homeworkList = service.homeworkList(subject);
 			path = "/homeworkListAll.jsp";
+			homeworkList = service.homeworkList(subject);
 		}else if(filter.equals("Clas")) {
+			path = "/homeworkListClas.jsp";
 			homeworkList = service.homeworkList(grade,clas,subject);
-			if(user != null && user.getPosition().equals("선생") && user.getGrade().equals(grade) && user.getClas().equals(clas)) path = "homeworkListTeacher.jsp";
-			else path = "/homeworkListClas.jsp";
 		}
+		if(user != null && user.getPosition().equals("선생")) 
+			path = "/homeworkListTeacher.jsp";
+		
 		request.setAttribute("homeworkList", homeworkList);
 		request.setAttribute("filter", filter);
 		request.setAttribute("grade", grade);
 		request.setAttribute("clas", clas);
+		
+		request.setAttribute("subject", subject);
 		HTTPUtil.forward(request, response, path);
 	}
 }

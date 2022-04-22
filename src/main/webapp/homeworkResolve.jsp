@@ -77,8 +77,8 @@
 			</c:when>
 		</c:choose>
 	</c:forEach>	
-	<button class="bottomBtn" onclick="openHomework('${homework.homeworkId}'); return false;">돌아가기</button>
-	<button onclick="submitBtn(); return false;">제출하기</button>
+	<input type="button" value="돌아가기" class="bottomBtn" onclick="openHomework('${homework.homeworkId}'); return false;">
+	<input type="button" value="제출하기" onclick="submitBtn(); return false;">
 </form>
 <script type="text/javascript">
 	$("#subjectBookMark").css("display","none");

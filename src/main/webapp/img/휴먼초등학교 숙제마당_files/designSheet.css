@@ -164,7 +164,7 @@ ul {
 	outline: none;
 	font-size: 19px;
 }
-.long textarea:not(.make){
+.long textarea{
 	position: absolute;
 	bottom: -90px;
 	height: 80px;

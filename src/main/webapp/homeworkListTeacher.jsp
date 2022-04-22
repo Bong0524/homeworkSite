@@ -5,10 +5,18 @@
 <style type="text/css">
 
 </style>
-<h1 id="innerTitle" class="brown">Class 선생</h1>
+<c:choose>
+	<c:when test="${subject eq 'math' }"><c:set var="subjectString" value="수학"/></c:when>
+	<c:when test="${subject eq 'korean' }"><c:set var="subjectString" value="국어"/></c:when>
+	<c:when test="${subject eq 'science' }"><c:set var="subjectString" value="과학"/></c:when>
+	<c:when test="${subject eq 'english' }"><c:set var="subjectString" value="영어"/></c:when>
+</c:choose>
+<h1 id="innerTitle" class="${empty subject ? 'brown' : subject}">${subjectString } 숙제마당(선생)
+	<input type="button" value="숙제등록" onclick="makeHomeworkBtn()">
+</h1>
 <div id="homeworkList">
 	<c:forEach items="${homeworkList }" var="homework">
-		<div class="homework" onclick="openHomework('${homework.homeworkId}')">
+		<div class="homework" onclick="openSubmitList('${homework.homeworkId}')">
 			<h2 class="homeworkTitle ${homework.subject}">${homework.title }</h2>
 			<div style="overflow: hidden; position: relative;">
 				<img alt="과목이미지" src="img/${homework.subject}.png" width="200px;" style="padding: 10px;">
@@ -23,6 +31,9 @@
 	</c:forEach>
 </div>
 <script type="text/javascript">
+	function makeHomeworkBtn() {
+		$("#section").load("homeworkMake.jsp");
+	}
 	$("#subjectBookMark").css("display","block");
 	function clickMark(s) {
 		$("#section").load("homeworkList.do", {filter : "${filter}", grade : "${grade}", clas : "${clas}", subject : s});

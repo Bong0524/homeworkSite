@@ -5,7 +5,13 @@
 <style type="text/css">
 
 </style>
-<h1 id="innerTitle" class="brown">Home</h1>
+<c:choose>
+	<c:when test="${subject eq 'math' }"><c:set var="subjectString" value="수학"/></c:when>
+	<c:when test="${subject eq 'korean' }"><c:set var="subjectString" value="국어"/></c:when>
+	<c:when test="${subject eq 'science' }"><c:set var="subjectString" value="과학"/></c:when>
+	<c:when test="${subject eq 'english' }"><c:set var="subjectString" value="영어"/></c:when>
+</c:choose>
+<h1 id="innerTitle" class="${empty subject ? 'brown' : subject}">${subjectString } 숙제마당</h1>
 <c:set var="todayInt" value="<%=new java.util.Date().getTime()%>" />
 <div id="homeworkList">
 	<c:forEach items="${homeworkList }" var="homework">

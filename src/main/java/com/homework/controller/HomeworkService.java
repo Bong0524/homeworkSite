@@ -57,8 +57,8 @@ public class HomeworkService {
 		return dao.Submission(homeworkId, user);
 	}
 
-	public ArrayList<SubmitInfo> submitList(String homeworkId) {
-		return dao.SubmitList(homeworkId);
+	public ArrayList<SubmitInfo> submitList(HomeworkInfo homework) {
+		return dao.SubmitList(homework);
 	}
 
 	public ArrayList<SubmitQInfo> submitQList(String homeworkId, String studentId) {

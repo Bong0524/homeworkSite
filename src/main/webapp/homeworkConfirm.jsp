@@ -9,8 +9,8 @@
 </style>
 
 <img alt="stamp" src="img/stamp.png" style="height: 150px; width: 150px; z-index: 3; position: absolute; top: 10px; right: 30px;">
-<h1 id="innerTitle" class="${homework.subject }">${homework.title }</h1>
-<form id="questBox" name="confirmForm" action="homeworkConfirm.do" method="post">
+<h1 id="innerTitle" class="${homework.subject }">${homework.title } ${submission.num}번 ${submission.name }</h1>
+<form id="questBox" name="confirmForm" action="homeworkTeacher.do" method="post">
 	<input type="hidden" name="homeworkId" value="${homework.homeworkId }">
 	<input type="hidden" name="studentId" value="${submission.id }">
 	<c:forEach var="quest" items="${questList }" varStatus="status">
@@ -151,5 +151,4 @@ $(".openExplan").click(function(e) {
 function submitConfirm() {
 	confirm("채점을 끝내시겠습니까?") ? confirmForm.submit() : ""
 }
-
 </script>

@@ -26,15 +26,15 @@
 	<jsp:include page="menuRight.jsp"/>
 	<script type="text/javascript">
 	<%if(request.getAttribute("homeworkId") != null){%>
-		openHomework(${homeworkId});
+		$("#section").load("homeworkTeacher.do", {homeworkId : ${homeworkId}});
 	<%}else{%>
 		clickMenu('All');
 	<%}%>
 	function clickMenu(f,g,c) {
 		$("#section").load("homeworkList.do", {filter : f, grade : g, clas : c});
 	}
-	function openHomework(homeworkId,studentId) {
-		$("#section").load("homeworkOpen.do", {homeworkId : homeworkId, studentId : studentId, how : "open"});
+	function openHomework(homeworkId) {
+		$("#section").load("homeworkOpen.do", {homeworkId : homeworkId, how : "open"});
 	}
 	function resolveHomework(homeworkId) {
 		$("#section").load("homeworkOpen.do", {homeworkId : homeworkId, how : "resolve"});
@@ -47,7 +47,12 @@
 		$("#subjectBookMark").css("display","none");
 		$("#homeworkBookMark").css("display","block");
 	}
-
+	function openSubmitList(homeworkId) {
+		$("#section").load("homeworkTeacher.do", {homeworkId : homeworkId});
+	}
+	function openSubmission(homeworkId, studentId) {
+		$("#section").load("homeworkTeacher.do", {homeworkId : homeworkId, studentId : studentId});
+	}
 	</script>
 </body>
 </html>

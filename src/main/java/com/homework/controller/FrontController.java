@@ -23,7 +23,7 @@ public class FrontController extends HttpServlet {
 		hash.put("/homeworkSubmit.do", new HomeworkSubmitController());
 		hash.put("/user.do", new UserController());
 		hash.put("/classList.do", new ClassListController());
-		hash.put("/homeworkConfirm.do", new HomeworkConfirmController());
+		hash.put("/homeworkTeacher.do", new HomeworkTeacherController());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

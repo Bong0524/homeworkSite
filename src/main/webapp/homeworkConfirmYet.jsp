@@ -78,6 +78,7 @@
 			<c:when test="${quest.kind eq 'short' }">
 				<div class="quest short">
 					<div style="display: flex;">
+					
 						<span style="width: 30px;">${status.count }.</span>
 						<span style="word-break: keep-all;"> ${quest.quest }</span>
 					</div>
@@ -89,9 +90,6 @@
 			<c:when test="${quest.kind eq 'long' }">
 				<div class="quest long">
 					<div style="display: flex;">
-						<c:if test="${!empty submitQList[status.index].correct}">
-							<img class="correctImg" alt="correct" src="img/${submitQList[status.index].correct eq '1' ? '' : 'in'}correct.png">
-						</c:if>
 						<span style="width: 30px;">${status.count }.</span>
 						<span style="word-break: keep-all;"> ${quest.quest }</span>
 					</div>

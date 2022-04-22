@@ -29,7 +29,9 @@ position varchar2(20) default '학생',
 confirmed number(1) default 0
 )
 select * from hw_user
+insert into hw_user values('fist','1234','김주먹','010-1111-2222','010-1111-3333','1','1','1','학생','0')
 insert into hw_user values('hong','1234','홍길동','010-1111-2222','010-2222-3333','6','2','3','학생','0')
+insert into hw_user values('kimg','1234','김길동','010-1111-2222','010-2222-3333','6','2','4','학생','0')
 insert into hw_user values('teac','1234','홍사범','010-2222-4444',null,'6','2','3','선생','1')
 select * from hw_user where id = 'hong'
 --숙제 테이블
@@ -94,11 +96,13 @@ grade number(1) not null,
 class number(1) not null, 
 name varchar2(10) not null,
 num number(1) not null,
-feedback varchar2(1000),
+explan varchar2(1000),
 subDate date default sysdate,
-confirm number(1) default 0,
+confirm varchar2(3) default 'X',
 constraint submit_pk primary key(homeworkId,id)
 )
+
+
 select * from hw_submit where homeworkId = 0
 delete from hw_submit where id = 'teac'
 --제출물의 문제 테이블
@@ -108,7 +112,7 @@ homeworkId number(10) not null,
 questNum number(3) not null,
 answer long not null,
 id varchar2(20) not null,
-feedback varchar2(1000),
+explan varchar2(1000),
 correct number(1),
 constraint submitQ_pk primary key(homeworkId,id,questNum)
 )
@@ -117,13 +121,40 @@ select * from hw_submitQ
 update hw_submitQ set correct = 1 where homeworkId = 0 and id = 'hong' and questNum = 2
 
 
+select u.num, u.name, s.subDate, s.confirm from hw_user u left join hw_submit s on s.id = u.id where u.grade = 6 and u.class = 2 and u.position = '학생'
+
+select u.num, u.name, s.subDate, nvl(s.confirm, '미제출') as confirm, s.homeworkId, u.id 
+from hw_user u left join hw_submit s on s.id = u.id
+union select u.num, u.name, s.subDate, nvl(s.confirm, '미제출') as confirm, s.homeworkId, u.id 
+from hw_user u right join hw_submit s on s.id = u.id where homeworkId = 1 order by num
 
 
+select * from hw_submit where homeworkId = 0 and id = 'hong'
+select homeworkId, grade, class, title, subject,stDate, enDate, ceil(enDate - sysdate+1) as timeout from hw_homework where homeworkId = 0
+select * from hw_submit where homeworkId = 0 
+CASE WHEN GENDER = '001' THEN '여' ELSE '남' END AS 성별
+
+select a.id, a.num, a.name, case when a.subDate = b.subDate then a.subDate else null end as subDate, case when a.confirm = b.confirm then 'O' else 'X' end as confirm, a.homeworkId from
+(select u.grade, u.class, u.id, u.num, u.name, s.subDate, h.homeworkId, s.confirm, u.position from hw_homework h, hw_user u left join hw_submit s on s.id = u.id ) a inner join
+(select u.grade, u.class, u.id, u.num, u.name, s.subDate, h.homeworkId, s.confirm, u.position from hw_user u, hw_homework h left join hw_submit s on s.homeworkId = h.homeworkId) b
+on a.id = b.id and a.homeworkId = b.homeworkId and a.position = '학생' where a.homeworkId = 0 order by a.num;
+
+select a.id, a.grade, a.class, a.num, a.name, case when a.subDate = b.subDate then a.subDate else null end as subDate, case when a.confirm = b.confirm then 'O' else 'X' end as confirm, a.homeworkId from
+(select u.*, s.subDate, s.confirm, h.homeworkId from hw_homework h, hw_user u left join hw_submit s on s.id = u.id ) a inner join
+(select u.*, s.subDate, s.confirm, h.homeworkId from hw_user u, hw_homework h left join hw_submit s on s.homeworkId = h.homeworkId) b
+on a.id = b.id and a.homeworkId = b.homeworkId where a.homeworkId = 1 and a.grade = 6 and a.class = 2 and a.position = '학생' order by a.num ;
 
 
+select u.grade, u.class, u.id, u.num, u.name, s.subDate, h.homeworkId, s.confirm, u.position from hw_homework h, hw_user u left join hw_submit s on s.id = u.id union all
+select u.grade, u.class, u.id, u.num, u.name, s.subDate, h.homeworkId, s.confirm, u.position from hw_user u, hw_homework h left join hw_submit s on s.homeworkId = h.homeworkId
 
+select u.*, ':', s.* from hw_user u left join hw_submit s on s.id = u.id
 
+select u.*,h.*,s.* from hw_homework h, hw_user u left join hw_submit s on s.id = u.id 
 
+select * from hw_homework  left join hw_submit s on u.id = s.id
+
+select u.id, u.name, h.homeworkId, nvl(s.confirm, '미제출') as confirm from hw_user u,hw_homework h full outer join hw_submit s on h.homeworkId = s.homeworkId where u.position = '학생' order by u.num
 
 
 

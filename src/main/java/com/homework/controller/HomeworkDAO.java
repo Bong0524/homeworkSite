@@ -379,7 +379,7 @@ public class HomeworkDAO {
 		return submission;
 	}
 
-	public ArrayList<SubmitInfo> SubmitList(String homeworkId) {
+	public ArrayList<SubmitInfo> SubmitList(HomeworkInfo homework) {
 		ArrayList<SubmitInfo> submitList = new ArrayList<SubmitInfo>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -387,21 +387,25 @@ public class HomeworkDAO {
 
 		try {
 			conn = JDBCConnection.getConnection();
-			String sql = "select * from hw_submit where homeworkId = ?";
+			String sql =  " select a.id, a.grade, a.class, a.num, a.name, case when a.subDate = b.subDate then a.subDate else null end as subDate, case when a.confirm = b.confirm then 'O' else 'X' end as confirm, a.homeworkId from "
+						+ " (select u.*, s.subDate, s.confirm, h.homeworkId from hw_homework h, hw_user u left join hw_submit s on s.id = u.id ) a inner join "
+						+ " (select u.*, s.subDate, s.confirm, h.homeworkId from hw_user u, hw_homework h left join hw_submit s on s.homeworkId = h.homeworkId) b "
+						+ " on a.id = b.id and a.homeworkId = b.homeworkId where a.homeworkId = ? and a.grade = ? and a.class = ? and a.position = '학생' order by a.num "+"";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, homeworkId);
+			stmt.setString(1, homework.getHomeworkId());
+			stmt.setString(2, homework.getGrade());
+			stmt.setString(3, homework.getClas());
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				SubmitInfo submission = new SubmitInfo();
-				submission.setHomeworkId(rs.getString(1));
-				submission.setId(rs.getString(2));
-				submission.setGrade(rs.getString(3));
-				submission.setClas(rs.getString(4));
+				submission.setId(rs.getString(1));
+				submission.setGrade(rs.getString(2));
+				submission.setClas(rs.getString(3));
+				submission.setNum(rs.getString(4));
 				submission.setName(rs.getString(5));
-				submission.setNum(rs.getString(6));
-				submission.setFeedback(rs.getString(7));
-				submission.setSubDate(rs.getDate(8));
-				submission.setConfirm(rs.getString(9));
+				submission.setSubDate(rs.getDate(6));
+				submission.setConfirm(rs.getString(7));
+				submission.setHomeworkId(rs.getString(8));
 				submitList.add(submission);
 			}
 		} catch (ClassNotFoundException e) {
@@ -535,7 +539,7 @@ public class HomeworkDAO {
 		
 		try {
 			conn = JDBCConnection.getConnection();
-			String sql = "update hw_submit set confirm = 1 where homeworkId = ? and id = ?"; 
+			String sql = "update hw_submit set confirm = 'O' where homeworkId = ? and id = ?"; 
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, homeworkId);
 			stmt.setString(2, studentId);
