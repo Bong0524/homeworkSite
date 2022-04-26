@@ -42,8 +42,8 @@ public class HomeworkDAO {
 				homework.setClas(rs.getString(3));
 				homework.setTitle(rs.getString(4));
 				homework.setSubject(rs.getString(5));
-				homework.setStDate(rs.getDate(6));
-				homework.setEnDate(rs.getDate(7));
+				homework.setStDate(rs.getString(6));
+				homework.setEnDate(rs.getString(7));
 				homework.setTimeout(rs.getInt(8));
 				homeworkList.add(homework);
 			}
@@ -80,8 +80,8 @@ public class HomeworkDAO {
 				homework.setClas(rs.getString(3));
 				homework.setTitle(rs.getString(4));
 				homework.setSubject(rs.getString(5));
-				homework.setStDate(rs.getDate(6));
-				homework.setEnDate(rs.getDate(7));
+				homework.setStDate(rs.getString(6));
+				homework.setEnDate(rs.getString(7));
 				homework.setTimeout(rs.getInt(8));
 				homeworkList.add(homework);
 			}
@@ -114,8 +114,8 @@ public class HomeworkDAO {
 				homework.setClas(rs.getString(3));
 				homework.setTitle(rs.getString(4));
 				homework.setSubject(rs.getString(5));
-				homework.setStDate(rs.getDate(6));
-				homework.setEnDate(rs.getDate(7));
+				homework.setStDate(rs.getString(6));
+				homework.setEnDate(rs.getString(7));
 				homework.setTimeout(rs.getInt(8));
 			}
 		} catch (ClassNotFoundException e) {
@@ -366,7 +366,7 @@ public class HomeworkDAO {
 				submission.setName(rs.getString(5));
 				submission.setNum(rs.getString(6));
 				submission.setFeedback(rs.getString(7));
-				submission.setSubDate(rs.getDate(8));
+				submission.setSubDate(rs.getString(8));
 				submission.setConfirm(rs.getString(9));
 			}
 		} catch (ClassNotFoundException e) {
@@ -403,7 +403,7 @@ public class HomeworkDAO {
 				submission.setClas(rs.getString(3));
 				submission.setNum(rs.getString(4));
 				submission.setName(rs.getString(5));
-				submission.setSubDate(rs.getDate(6));
+				submission.setSubDate(rs.getString(6));
 				submission.setConfirm(rs.getString(7));
 				submission.setHomeworkId(rs.getString(8));
 				submitList.add(submission);
@@ -439,7 +439,7 @@ public class HomeworkDAO {
 				submission.setName(rs.getString(5));
 				submission.setNum(rs.getString(6));
 				submission.setFeedback(rs.getString(7));
-				submission.setSubDate(rs.getDate(8));
+				submission.setSubDate(rs.getString(8));
 				submission.setConfirm(rs.getString(9));
 			}
 		} catch (ClassNotFoundException e) {
@@ -592,13 +592,38 @@ public class HomeworkDAO {
 		return studentList;
 	}
 
-	public void MakeQuest(ArrayList<QuestInfo> questList) {
+	public void MakeQuest(ArrayList<QuestInfo> questList, HomeworkInfo homework) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		
+		String sql = null;
 		try {
 			conn = JDBCConnection.getConnection();
-			String sql = "insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'곱셈나눗셈','math','2022-04-06','2022-04-07')";
+			sql = "insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),?,?,?,?,sysdate,?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, homework.getGrade());
+			stmt.setString(2, homework.getClas());
+			stmt.setString(3, homework.getTitle());
+			stmt.setString(4, homework.getSubject());
+			stmt.setString(5, homework.getEnDate());
+			int cnt = stmt.executeUpdate();
+			System.out.println(cnt);
+			 for(int i = 0 ; i < questList.size() ; i++) {
+				stmt.close();
+				QuestInfo quest = questList.get(i);
+				sql = "insert into hw_quest values((select max(homeworkId) from hw_homework), ?,?,?,?,?,?,?,?,?)";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, quest.getQuestNum());
+				stmt.setString(2, quest.getKind());
+				stmt.setString(3, quest.getQuest());
+				stmt.setString(4, quest.getAnswer());
+				stmt.setString(5, quest.getFirst());
+				stmt.setString(6, quest.getSecond());
+				stmt.setString(7, quest.getThird());
+				stmt.setString(8, quest.getFourth());
+				stmt.setString(9, quest.getFifth());
+				cnt = stmt.executeUpdate();
+				System.out.println(cnt);
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

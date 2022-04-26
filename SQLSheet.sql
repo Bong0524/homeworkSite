@@ -82,7 +82,7 @@ insert into hw_quest(homeworkId,questNum,kind,quest,answer,first,second,third,fo
 insert into hw_quest(homeworkId,questNum,kind,quest,answer,first,second,third,fourth,fifth) values(0,8,'five','다음 □안에 들어갈 수중에서 가장 큰 수를 고르시오.','5','24÷□＝8','72÷□＝9','48÷□＝8','35÷□＝5','18÷□＝2');
 insert into hw_quest(homeworkId,questNum,kind,quest,answer,first,second,third,fourth,fifth) values(0,9,'five','계산결과가 가장 큰 것을 고르시오.','3','(18×5)÷9','(20÷4)×2','(24×6)÷12','(6×10)÷12','(22×5)÷11');
 insert into hw_quest(homeworkId,questNum,kind,quest) values(0,10,'long','평행사변형의 조건을 서술하시오.');
-
+select max(homeworkId) from hw_homework
 insert into hw_quest values('5',1,'책한권 읽고 독서록 쓰기',null);
 select * from hw_homework h inner join hw_quest q on h.homeworkId = q.homeworkId where h.homeworkId = '0'
 select * from hw_quest where homeworkId = 0 order by questNum
@@ -101,7 +101,7 @@ subDate date default sysdate,
 confirm varchar2(3) default 'X',
 constraint submit_pk primary key(homeworkId,id)
 )
-
+select * from hw_submit 
 
 select * from hw_submit where homeworkId = 0
 delete from hw_submit where id = 'teac'
@@ -127,6 +127,7 @@ select u.num, u.name, s.subDate, nvl(s.confirm, '미제출') as confirm, s.homew
 from hw_user u left join hw_submit s on s.id = u.id
 union select u.num, u.name, s.subDate, nvl(s.confirm, '미제출') as confirm, s.homeworkId, u.id 
 from hw_user u right join hw_submit s on s.id = u.id where homeworkId = 1 order by num
+select u.id, u.name, h.homeworkId, nvl(s.confirm, '미제출') as confirm from hw_user u,hw_homework h full outer join hw_submit s on h.homeworkId = s.homeworkId where u.position = '학생' order by u.num
 
 
 select * from hw_submit where homeworkId = 0 and id = 'hong'
@@ -140,21 +141,27 @@ select a.id, a.num, a.name, case when a.subDate = b.subDate then a.subDate else 
 on a.id = b.id and a.homeworkId = b.homeworkId and a.position = '학생' where a.homeworkId = 0 order by a.num;
 
 select a.id, a.grade, a.class, a.num, a.name, case when a.subDate = b.subDate then a.subDate else null end as subDate, case when a.confirm = b.confirm then 'O' else 'X' end as confirm, a.homeworkId from
-(select u.*, s.subDate, s.confirm, h.homeworkId from hw_homework h, hw_user u left join hw_submit s on s.id = u.id ) a inner join
+(select u.*, s.subDate, s.confirm, h.homeworkId from hw_homework h, hw_user u left join hw_submit s on s.id = u.id) a inner join
 (select u.*, s.subDate, s.confirm, h.homeworkId from hw_user u, hw_homework h left join hw_submit s on s.homeworkId = h.homeworkId) b
 on a.id = b.id and a.homeworkId = b.homeworkId where a.homeworkId = 1 and a.grade = 6 and a.class = 2 and a.position = '학생' order by a.num ;
 
 
-select u.grade, u.class, u.id, u.num, u.name, s.subDate, h.homeworkId, s.confirm, u.position from hw_homework h, hw_user u left join hw_submit s on s.id = u.id union all
-select u.grade, u.class, u.id, u.num, u.name, s.subDate, h.homeworkId, s.confirm, u.position from hw_user u, hw_homework h left join hw_submit s on s.homeworkId = h.homeworkId
+select * from hw_homework h, hw_user u left join hw_submit s on s.id = u.id where h.homeworkId = 0 
+select * from hw_homework
 
-select u.*, ':', s.* from hw_user u left join hw_submit s on s.id = u.id
 
-select u.*,h.*,s.* from hw_homework h, hw_user u left join hw_submit s on s.id = u.id 
 
-select * from hw_homework  left join hw_submit s on u.id = s.id
 
-select u.id, u.name, h.homeworkId, nvl(s.confirm, '미제출') as confirm from hw_user u,hw_homework h full outer join hw_submit s on h.homeworkId = s.homeworkId where u.position = '학생' order by u.num
+
+
+
+
+
+
+
+
+
+
 
 
 

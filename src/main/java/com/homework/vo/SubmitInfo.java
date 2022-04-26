@@ -10,7 +10,7 @@ public class SubmitInfo {
 	private String name;
 	private String num;
 	private String feedback;
-	private Date subDate;
+	private String subDate;
 	private String confirm;
 	
 	public String getConfirm() {
@@ -49,10 +49,10 @@ public class SubmitInfo {
 	public void setNum(String num) {
 		this.num = num;
 	}
-	public Date getSubDate() {
+	public String getSubDate() {
 		return subDate;
 	}
-	public void setSubDate(Date subDate) {
+	public void setSubDate(String subDate) {
 		this.subDate = subDate;
 	}
 	public String getId() {

@@ -8,8 +8,8 @@ public class HomeworkInfo {
 	private String clas;
 	private String title;
 	private String subject;
-	private Date stDate;
-	private Date enDate;
+	private String stDate;
+	private String enDate;
 	private int timeout;
 	
 	public int getTimeout() {
@@ -48,16 +48,16 @@ public class HomeworkInfo {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public Date getStDate() {
+	public String getStDate() {
 		return stDate;
 	}
-	public void setStDate(Date stDate) {
+	public void setStDate(String stDate) {
 		this.stDate = stDate;
 	}
-	public Date getEnDate() {
+	public String getEnDate() {
 		return enDate;
 	}
-	public void setEnDate(Date enDate) {
+	public void setEnDate(String enDate) {
 		this.enDate = enDate;
 	}
 }

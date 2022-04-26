@@ -35,12 +35,18 @@
 	color: red;
 }
 </style>
-
+<form name="questForm" method="post" action="homeworkMake.do">
 <h1 id="innerTitle" class="brown">
-	<input type="text" id="questTitle" placeholder="숙제의 제목을 입력해주세요." >
-	<input type="date" name="enDate" id="questEnDate" min="">
+	<input type="text" name="title" id="questTitle" placeholder="숙제의 제목을 입력해주세요.">
+	<input type="date" name="enDate" id="enDate" style="background: none; color: white; border: 1px solid black; font-size: 25px; float: right;">
+	<select name="subject" id="subject">
+		<option value="korean">국어</option>
+		<option value="english">영어</option>
+		<option value="math">수학</option>
+		<option value="science">과학</option>
+	</select>
 </h1>
-<form id="questBox" style="overflow: overlay" name="questForm" method="post" action="homeworkMake.do">
+<div id="questBox" style="overflow: overlay" >
 	<div id="makeQuestBtnBox" style="order: 1;">
 		<select id="questKind">
 			<option value=five>오지선다형</option>
@@ -52,30 +58,32 @@
 		<button onclick="deleteQuest(); return false;" style="order: 1;">문제삭제</button>
 	</div>
 	<button class="bottomBtn" onclick="makeHomework(); return false;">숙제등록</button>
+</div>
 </form>
 <script type="text/javascript">
 $("#subjectBookMark").css("display","none");
+$("#enDate").attr("min", new Date().toISOString().split("T")[0]);
+
+var questText = document.getElementsByClassName("questText");
+var kind = document.getElementsByName("kind");
+
 function deleteQuest() {
 	$(".questBox"+(questNum-1)+"").remove();
 	questNum--;
 }
-
-var questText = document.getElementsByClassName("questText");
-var kind = document.getElementsByName("kind");
-var today = new Date;
-
-var date = today.getDate();
-var month = today.getMonth()+1;
-var year = today.getFullYear();
-$("#questEnDate").prop("min", year+"-"+month+"-"+date)
-
+$("#subject").change(function() {
+	$("#innerTitle").attr("class", $("#subject").val()); 
+})
 function makeHomework() {
 	if(!$("#questTitle").val()){
 		alert("해당 숙제의 제목을 입력해주세요.");
 		$("#questTitle").focus();
 		return;
-	}else if(!$("#questEnDate").val() ){
+	}else if(!$("#enDate").val() ){
 		alert("해당 숙제의 마감시간을 정해주세요.");
+		return;
+	}else if(questNum <= 1){
+		alert("적어도 하나의 문제를 작성 해주세요");
 		return;
 	}
 	for(var i = 0 ; i < questText.length ; i++){

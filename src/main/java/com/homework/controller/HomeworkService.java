@@ -85,8 +85,8 @@ public class HomeworkService {
 		return dao.StudentList(user);
 	}
 
-	public void makeQuest(ArrayList<QuestInfo> questList) {
-		dao.MakeQuest(questList);
+	public void makeQuest(ArrayList<QuestInfo> questList, HomeworkInfo homework) {
+		dao.MakeQuest(questList, homework);
 	}
 
 
