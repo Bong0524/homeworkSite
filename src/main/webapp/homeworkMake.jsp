@@ -36,82 +36,146 @@
 }
 </style>
 
-<h1 id="innerTitle" class="brown"><input type="text" id="questTitle" placeholder="숙제의 제목을 입력해주세요." ></h1>
-<div id="questBox" style="overflow: overlay">
+<h1 id="innerTitle" class="brown">
+	<input type="text" id="questTitle" placeholder="숙제의 제목을 입력해주세요." >
+	<input type="date" name="enDate" id="questEnDate" min="">
+</h1>
+<form id="questBox" style="overflow: overlay" name="questForm" method="post" action="homeworkMake.do">
 	<div id="makeQuestBtnBox" style="order: 1;">
-		<select name="king" id="questKind">
+		<select id="questKind">
 			<option value=five>오지선다형</option>
 			<option value="four">다답형</option>
 			<option value="short">단답형</option>
 			<option value="long">서술형</option>
 		</select>
-		<button onclick="makeQuest()" style="order: 1;">문제추가</button>
+		<button onclick="makeQuest(); return false;" style="order: 1;">문제추가</button>
+		<button onclick="deleteQuest(); return false;" style="order: 1;">문제삭제</button>
 	</div>
-	<button class="bottomBtn" onclick="makeHomework()">숙제등록</button>
-</div>
+	<button class="bottomBtn" onclick="makeHomework(); return false;">숙제등록</button>
+</form>
 <script type="text/javascript">
 $("#subjectBookMark").css("display","none");
-var i=1;
+function deleteQuest() {
+	$(".questBox"+(questNum-1)+"").remove();
+	questNum--;
+}
+
+var questText = document.getElementsByClassName("questText");
+var kind = document.getElementsByName("kind");
+var today = new Date;
+
+var date = today.getDate();
+var month = today.getMonth()+1;
+var year = today.getFullYear();
+$("#questEnDate").prop("min", year+"-"+month+"-"+date)
+
+function makeHomework() {
+	if(!$("#questTitle").val()){
+		alert("해당 숙제의 제목을 입력해주세요.");
+		$("#questTitle").focus();
+		return;
+	}else if(!$("#questEnDate").val() ){
+		alert("해당 숙제의 마감시간을 정해주세요.");
+		return;
+	}
+	for(var i = 0 ; i < questText.length ; i++){
+		if(!questText[i].value){
+			questText[i].focus();
+			alert("모든 문제를 작성 해주세요.");
+			return;
+		}
+		if(kind[i].value == "five" || kind[i].value == "four"){
+			var selectText = document.getElementsByName("selectText"+(i+1)+"");
+			for(var j = 0 ; j < selectText.length ; j++){
+				if(!selectText[j].value){
+					alert("모든 문제를 작성 해주세요.");
+					selectText[j].focus();
+					return;
+				}
+			}
+			var answer = 0;
+			for(var j = 1 ; j <= ($("input[name="+(i+1)+"]").length) ; j++){
+				if($("#"+(i+1)+"-"+j).prop("checked")) answer++;
+			}
+			if(answer < 1) {
+				questText[i].focus();
+				alert("정답을 설정해주세요.");
+				return;
+			}
+		}
+	}
+	questForm.submit();
+}
+
+
+
+
+
+var questNum = 1;
 function makeQuest(){
 	if($("#questKind").val() == "five"){
-		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+i+" five quest'>");
-			$(".questBox"+i+"").append("<div style='display: flex; width: 100%;' class='quest"+i+"'>");
-				$(".quest"+i+"").append("<span style='width: 30px;'>"+i+".</span>");
-				$(".quest"+i+"").append("<textarea name='"+i+"selectText' class = 'questText' rows='1'></textarea>");
-			$(".questBox"+i+"").append("<div class='questImageBox'></div>");
-			$(".questBox"+i+"").append("<div class='questSelect"+i+"' style='display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%;'>");
-				$(".questSelect"+i+"").append("<input type='radio' value='1' name='"+i+"' id='"+i+"-1' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-1'>①<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
-				$(".questSelect"+i+"").append("<input type='radio' value='2' name='"+i+"' id='"+i+"-2' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-2'>②<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
-				$(".questSelect"+i+"").append("<input type='radio' value='3' name='"+i+"' id='"+i+"-3' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-3'>③<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
-				$(".questSelect"+i+"").append("<input type='radio' value='4' name='"+i+"' id='"+i+"-4' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-4'>④<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
-				$(".questSelect"+i+"").append("<input type='radio' value='5' name='"+i+"' id='"+i+"-5' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-5'>⑤<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
+		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+questNum+" five quest'>");
+			$(".questBox"+questNum+"").append("<div style='display: flex; width: 100%;' class='quest"+questNum+"'>");
+				$(".quest"+questNum+"").append("<span style='width: 30px;'>"+questNum+".</span>");
+				$(".quest"+questNum+"").append("<input type='hidden' value='five' name='kind'>");
+				$(".quest"+questNum+"").append("<textarea name='questText' class = 'questText' rows='1'></textarea>");
+			$(".questBox"+questNum+"").append("<div class='questImageBox'></div>");
+			$(".questBox"+questNum+"").append("<div class='questSelect"+questNum+"' style='display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%;'>");
+				$(".questSelect"+questNum+"").append("<input type='radio' value='1' name='"+questNum+"' id='"+questNum+"-1' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-1'>①<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
+				$(".questSelect"+questNum+"").append("<input type='radio' value='2' name='"+questNum+"' id='"+questNum+"-2' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-2'>②<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
+				$(".questSelect"+questNum+"").append("<input type='radio' value='3' name='"+questNum+"' id='"+questNum+"-3' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-3'>③<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
+				$(".questSelect"+questNum+"").append("<input type='radio' value='4' name='"+questNum+"' id='"+questNum+"-4' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-4'>④<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
+				$(".questSelect"+questNum+"").append("<input type='radio' value='5' name='"+questNum+"' id='"+questNum+"-5' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-5'>⑤<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
 	}else if($("#questKind").val() == "four"){
-		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+i+" four quest'>");
-			$(".questBox"+i+"").append("<div style='display: flex; width: 100%;' class='quest"+i+"'>");
-				$(".quest"+i+"").append("<span style='width: 30px;'>"+i+".</span>");
-				$(".quest"+i+"").append("<textarea name='"+i+"selectText' class = 'questText' rows='1'></textarea>");
-			$(".questBox"+i+"").append("<div class='questImageBox'></div>");
-			$(".questBox"+i+"").append("<div class='questSelect"+i+"' style='display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%; border: 1px solid black; padding: 5px;'>");
-				$(".questSelect"+i+"").append("<input type='checkbox' value='ㄱ' name='"+i+"' id='"+i+"-1' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-1'>ㄱ.<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
-				$(".questSelect"+i+"").append("<input type='checkbox' value='ㄴ' name='"+i+"' id='"+i+"-2' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-2'>ㄴ.<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
-				$(".questSelect"+i+"").append("<input type='checkbox' value='ㄷ' name='"+i+"' id='"+i+"-3' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-3'>ㄷ.<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
-				$(".questSelect"+i+"").append("<input type='checkbox' value='ㄹ' name='"+i+"' id='"+i+"-4' class='check'>");
-				$(".questSelect"+i+"").append("<label class='selectLabel' for='"+i+"-4'>ㄹ.<textarea name='"+i+"select' rows='1' class ='selectText'></textarea></label>");
+		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+questNum+" four quest'>");
+			$(".questBox"+questNum+"").append("<div style='display: flex; width: 100%;' class='quest"+questNum+"'>");
+				$(".quest"+questNum+"").append("<span style='width: 30px;'>"+questNum+".</span>");
+				$(".quest"+questNum+"").append("<input type='hidden' value='four' name='kind'>");
+				$(".quest"+questNum+"").append("<textarea name='questText' class = 'questText' rows='1'></textarea>");
+			$(".questBox"+questNum+"").append("<div class='questImageBox'></div>");
+			$(".questBox"+questNum+"").append("<div class='questSelect"+questNum+"' style='display: flex; flex-wrap: wrap; margin: 10px auto; width: 95%; border: 1px solid black; padding: 5px;'>");
+				$(".questSelect"+questNum+"").append("<input type='checkbox' value='ㄱ' name='"+questNum+"' id='"+questNum+"-1' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-1'>ㄱ.<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
+				$(".questSelect"+questNum+"").append("<input type='checkbox' value='ㄴ' name='"+questNum+"' id='"+questNum+"-2' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-2'>ㄴ.<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
+				$(".questSelect"+questNum+"").append("<input type='checkbox' value='ㄷ' name='"+questNum+"' id='"+questNum+"-3' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-3'>ㄷ.<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
+				$(".questSelect"+questNum+"").append("<input type='checkbox' value='ㄹ' name='"+questNum+"' id='"+questNum+"-4' class='check'>");
+				$(".questSelect"+questNum+"").append("<label class='selectLabel' for='"+questNum+"-4'>ㄹ.<textarea name='selectText"+questNum+"' rows='1' class ='selectText'></textarea></label>");
 	}else if($("#questKind").val() == "short"){
-		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+i+" short quest'>");
-			$(".questBox"+i+"").append("<div style='display: flex; width: 100%;' class='quest"+i+"'>");
-				$(".quest"+i+"").append("<span style='width: 30px;'>"+i+".</span>");
-				$(".quest"+i+"").append("<textarea name='"+i+"selectText' class = 'questText' rows='1'></textarea>");
-			$(".questBox"+i+"").append("<div class='questImageBox'></div>");
-			$(".questBox"+i+"").append("<textarea name='"+i+"' rows='1' class ='selectText'></textarea>");
+		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+questNum+" short quest'>");
+			$(".questBox"+questNum+"").append("<div style='display: flex; width: 100%;' class='quest"+questNum+"'>");
+				$(".quest"+questNum+"").append("<span style='width: 30px;'>"+questNum+".</span>");
+				$(".quest"+questNum+"").append("<input type='hidden' value='five' name='short'>");
+				$(".quest"+questNum+"").append("<textarea name='questText' class = 'questText' rows='1'></textarea>");
+			$(".questBox"+questNum+"").append("<div class='questImageBox'></div>");
+			$(".questBox"+questNum+"").append("<textarea name='"+questNum+"' rows='1' class ='selectText'></textarea>");
 	}else if($("#questKind").val() == "long"){
-		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+i+" long quest'>");
-			$(".questBox"+i+"").append("<div style='display: flex; width: 100%;' class='short quest"+i+"'>");
-				$(".quest"+i+"").append("<span style='width: 30px;'>"+i+".</span>");
-				$(".quest"+i+"").append("<textarea name='"+i+"selectText' class = 'questText make' rows='1'></textarea>");
-			$(".questBox"+i+"").append("<div class='questImageBox'></div>");
-			$(".questBox"+i+"").append("<textarea name='"+i+"' disabled='disabled'></textarea>");
+		$("#questBox").append("<div style='display: flex; flex-wrap: wrap;' class='questBox"+questNum+" long quest'>");
+			$(".questBox"+questNum+"").append("<div style='display: flex; width: 100%;' class='short quest"+questNum+"'>");
+				$(".quest"+questNum+"").append("<span style='width: 30px;'>"+questNum+".</span>");
+				$(".quest"+questNum+"").append("<input type='hidden' value='five' name='long'>");
+				$(".quest"+questNum+"").append("<textarea name='questText' class = 'questText make' rows='1'></textarea>");
+			$(".questBox"+questNum+"").append("<div class='questImageBox'></div>");
+			$(".questBox"+questNum+"").append("<textarea name='"+questNum+"' disabled='disabled'></textarea>");
 	}
 	$("textarea").on('keydown keyup', function() {
 		$(this).css('height', 'auto' );
 		$(this).css("height", ""+(($(this).prop('scrollHeight')+1+'px')+""))
 		if($("#questBox").prop("scrollWidth") > 1010){
 			$(".questBox"+(i-1)+"").remove();
-			i--;
+			questNum--;
 		}
 	});
 	if($("#questBox").prop("scrollWidth") > 1010){
-		$(".questBox"+i+"").remove();
+		$(".questBox"+questNum+"").remove();
 		return;
 	}
-	i++;
+	questNum++;
 };
 </script>

@@ -26,9 +26,9 @@ grade number(1) not null,
 class number(1) not null, 
 num number(2) not null,
 position varchar2(20) default '학생',
-confirmed number(1) default 0
+confirm number(1) default 0
 )
-select * from hw_user
+select * from hw_user where grade = 6 and class = 2 and position = '학생'
 insert into hw_user values('fist','1234','김주먹','010-1111-2222','010-1111-3333','1','1','1','학생','0')
 insert into hw_user values('hong','1234','홍길동','010-1111-2222','010-2222-3333','6','2','3','학생','0')
 insert into hw_user values('kimg','1234','김길동','010-1111-2222','010-2222-3333','6','2','4','학생','0')

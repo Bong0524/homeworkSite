@@ -12,7 +12,8 @@
 	<c:when test="${subject eq 'english' }"><c:set var="subjectString" value="영어"/></c:when>
 </c:choose>
 <h1 id="innerTitle" class="${empty subject ? 'brown' : subject}">${subjectString } 숙제마당(선생)
-	<input type="button" value="숙제등록" onclick="makeHomeworkBtn()">
+	<input type="button" value="숙제등록" onclick="makeHomeworkBtn(); return false;">
+	<input type="button" value="학생관리" onclick="showStudentList(); return false;">
 </h1>
 <div id="homeworkList">
 	<c:forEach items="${homeworkList }" var="homework">
@@ -34,6 +35,13 @@
 	function makeHomeworkBtn() {
 		$("#section").load("homeworkMake.jsp");
 	}
+	function showStudentList() {
+		var popup = window.open('userTeacher.do', '네이버팝업', 'width=700px,height=800px,scrollbars=yes');
+	}
+	
+	
+	
+	
 	$("#subjectBookMark").css("display","block");
 	function clickMark(s) {
 		$("#section").load("homeworkList.do", {filter : "${filter}", grade : "${grade}", clas : "${clas}", subject : s});

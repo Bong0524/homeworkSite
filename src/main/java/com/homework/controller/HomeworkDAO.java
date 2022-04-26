@@ -554,4 +554,58 @@ public class HomeworkDAO {
 			JDBCConnection.close(conn, stmt);
 		}
 	}
+
+	public ArrayList<UserInfo> StudentList(UserInfo user) {
+		ArrayList<UserInfo> studentList = new ArrayList<UserInfo>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			System.out.println(user.getClas()+","+ user.getGrade());
+			conn = JDBCConnection.getConnection();
+			String sql = "select * from hw_user where grade = ? and class = ? and position = '학생'";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, user.getGrade());
+			stmt.setString(2, user.getClas());
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				UserInfo student = new UserInfo();
+				student.setId(rs.getString(1));
+				student.setPw(rs.getString(2));
+				student.setName(rs.getString(3));
+				student.setTel(rs.getString(4));
+				student.setParent(rs.getString(5));
+				student.setGrade(rs.getString(6));
+				student.setClas(rs.getString(7));
+				student.setNum(rs.getString(8));
+				student.setPosition(rs.getString(9));
+				student.setConfirm(rs.getString(10));
+				studentList.add(student);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(conn, stmt, rs);
+		}
+		return studentList;
+	}
+
+	public void MakeQuest(ArrayList<QuestInfo> questList) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = JDBCConnection.getConnection();
+			String sql = "insert into hw_homework values((select nvl(max(homeworkId)+1,0) from hw_homework),6,2,'곱셈나눗셈','math','2022-04-06','2022-04-07')";
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnection.close(conn, stmt);
+		}
+		
+	}
 }

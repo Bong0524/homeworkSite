@@ -81,5 +81,13 @@ public class HomeworkService {
 		dao.Confirm(homeworkId, studentId);
 	}
 
+	public ArrayList<UserInfo> studentList(UserInfo user) {
+		return dao.StudentList(user);
+	}
+
+	public void makeQuest(ArrayList<QuestInfo> questList) {
+		dao.MakeQuest(questList);
+	}
+
 
 }

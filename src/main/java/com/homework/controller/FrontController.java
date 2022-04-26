@@ -18,12 +18,14 @@ public class FrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		charset = config.getInitParameter("charset");
 		hash = new HashMap<>();
+		hash.put("/classList.do", new ClassListController());
 		hash.put("/homeworkList.do", new HomeworkListController());
 		hash.put("/homeworkOpen.do", new HomeworkOpenController());
 		hash.put("/homeworkSubmit.do", new HomeworkSubmitController());
 		hash.put("/user.do", new UserController());
-		hash.put("/classList.do", new ClassListController());
+		hash.put("/userTeacher.do", new UserTeacherController());
 		hash.put("/homeworkTeacher.do", new HomeworkTeacherController());
+		hash.put("/homeworkMake.do", new HomeworkMakeController());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
